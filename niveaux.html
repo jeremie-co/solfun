@@ -251,11 +251,7 @@
             <div class="level-card level-1" onclick="startLevel(1)">
                 <div class="level-header">
                     <div class="level-number">1</div>
-                    <div class="stars" id="stars-1">
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                    </div>
+                    <div class="stars" id="stars-1"></div>
                 </div>
                 <h3 class="level-title">Débutant <span data-icon="cat" data-icon-size="sm"></span></h3>
                 <p class="level-description">
@@ -271,11 +267,7 @@
             <div class="level-card level-2" onclick="startLevel(2)">
                 <div class="level-header">
                     <div class="level-number">2</div>
-                    <div class="stars" id="stars-2">
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                    </div>
+                    <div class="stars" id="stars-2"></div>
                 </div>
                 <h3 class="level-title">Explorateur <span data-icon="fox" data-icon-size="sm"></span></h3>
                 <p class="level-description">
@@ -291,11 +283,7 @@
             <div class="level-card level-3" onclick="startLevel(3)">
                 <div class="level-header">
                     <div class="level-number">3</div>
-                    <div class="stars" id="stars-3">
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                    </div>
+                    <div class="stars" id="stars-3"></div>
                 </div>
                 <h3 class="level-title">Aventurier <span data-icon="bear" data-icon-size="sm"></span></h3>
                 <p class="level-description">
@@ -317,14 +305,16 @@
         function loadProgress() {
             const progress = app.state.progress;
 
-            for (let i = 1; i <= 3; i++) {
-                const starEls = document.querySelectorAll(`#stars-${i} .star`);
-                const levelProgress = progress[`level${i}`];
-                if (levelProgress) {
-                    for (let j = 0; j < levelProgress.stars && j < starEls.length; j++) {
-                        starEls[j].innerHTML = SolFunIcons.star('sm');
-                        starEls[j].classList.add('earned');
-                    }
+            for (let level = 1; level <= 3; level++) {
+                const container = document.getElementById(`stars-${level}`);
+                const earned = progress[`level${level}`]?.stars || 0;
+
+                container.innerHTML = '';
+                for (let j = 0; j < level; j++) {
+                    const span = document.createElement('span');
+                    span.className = 'star' + (j < earned ? ' earned' : '');
+                    span.innerHTML = j < earned ? SolFunIcons.star('sm') : SolFunIcons.starEmpty('sm');
+                    container.appendChild(span);
                 }
             }
         }
