@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#D4FFEA">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Exercice - SolFun</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pastel-pink: #FFD4E5;
+            --pastel-blue: #B4D4FF;
+            --pastel-lavender: #E5D4FF;
+            --pastel-peach: #FFE5CC;
+            --pastel-mint: #D4FFEA;
+            --soft-purple: #9B86BD;
+            --deep-blue: #6B9BD1;
+            --white: #FFFFFF;
+            --text-dark: #4A4A68;
+            --text-light: #7A7A9E;
+            --success-green: #7FD89A;
+            --error-red: #FF9B9B;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--pastel-mint) 0%, var(--pastel-blue) 100%);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            padding: 20px;
+            padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        .top-bar {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(155, 134, 189, 0.15);
+        }
+        
+        .score-display {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .score-item {
+            text-align: center;
+        }
+        
+        .score-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        
+        .score-value {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--soft-purple);
+        }
+        
+        .quit-button {
+            background: var(--error-red);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quit-button:hover,
+        .quit-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 155, 155, 0.4);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .exercise-card {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 15px 40px rgba(155, 134, 189, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .question-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .question-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+        
+        .mascot-helper {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            animation: wiggle 2s infinite ease-in-out;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        
+        .staff-container {
+            height: 220px;
+            position: relative;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .staff-svg {
+            width: 100%;
+            max-width: 600px;
+            height: 100%;
+        }
+
+        .staff-note-group {
+            transition: transform 0.3s ease;
+        }
+
+        .staff-note-group.animate-in {
+            animation: noteAppear 0.5s ease-out;
+        }
+
+        @keyframes noteAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .listen-button {
+            background: var(--pastel-lavender);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            color: var(--soft-purple);
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(155, 134, 189, 0.2);
+        }
+        
+        .listen-button:hover,
+        .listen-button:active {
+            transform: scale(1.05);
+            background: var(--soft-purple);
+            color: white;
+        }
+        
+        .answers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .answer-button {
+            background: white;
+            border: 3px solid var(--pastel-blue);
+            padding: 25px;
+            border-radius: 20px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            color: var(--soft-purple);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .answer-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            transition: left 0.5s;
+        }
+        
+        .answer-button:hover:before,
+        .answer-button:active:before {
+            left: 100%;
+        }
+
+        .answer-button:hover,
+        .answer-button:active {
+            transform: translateY(-5px) scale(1.05);
+            border-color: var(--soft-purple);
+            box-shadow: 0 10px 30px rgba(155, 134, 189, 0.3);
+        }
+        
+        .answer-button.correct {
+            background: var(--success-green);
+            border-color: var(--success-green);
+            color: white;
+            animation: successPulse 0.6s ease;
+        }
+        
+        .answer-button.incorrect {
+            background: var(--error-red);
+            border-color: var(--error-red);
+            color: white;
+            animation: shake 0.5s ease;
+        }
+        
+        .answer-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .feedback-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 40px 60px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(155, 134, 189, 0.4);
+            z-index: 1000;
+            text-align: center;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .feedback-message.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .feedback-icon {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .feedback-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2rem;
+            color: var(--text-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .exercise-card {
+                padding: 25px 18px;
+                border-radius: 22px;
+            }
+
+            .top-bar {
+                padding: 14px 18px;
+                margin-bottom: 20px;
+                border-radius: 16px;
+            }
+
+            .score-display {
+                gap: 16px;
+            }
+
+            .score-value {
+                font-size: 1.4rem;
+            }
+
+            .score-label {
+                font-size: 0.8rem;
+            }
+
+            .question-text {
+                font-size: 1.4rem;
+                margin-bottom: 10px;
+            }
+
+            .mascot-helper {
+                width: 60px;
+                height: 60px;
+            }
+
+            .answers-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin-top: 25px;
+            }
+
+            .answer-button {
+                padding: 20px 15px;
+                font-size: 1.3rem;
+                border-radius: 16px;
+                min-height: 60px;
+            }
+
+            .answer-button:active {
+                transform: scale(1.03);
+            }
+
+            .staff-container {
+                height: 160px;
+                margin: 20px 0;
+            }
+
+            .listen-button {
+                padding: 14px 24px;
+                font-size: 1rem;
+                min-height: 48px;
+            }
+
+            .quit-button {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+                min-height: 44px;
+            }
+
+            .feedback-message {
+                padding: 30px 35px;
+                width: calc(100% - 40px);
+                max-width: 350px;
+                border-radius: 22px;
+            }
+
+            .feedback-text {
+                font-size: 1.5rem;
+            }
+
+            .question-header {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            body {
+                padding: 12px;
+            }
+
+            .top-bar {
+                padding: 10px 14px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .score-display {
+                gap: 12px;
+            }
+
+            .score-value {
+                font-size: 1.2rem;
+            }
+
+            .exercise-card {
+                padding: 18px 14px;
+            }
+
+            .question-text {
+                font-size: 1.2rem;
+            }
+
+            .answer-button {
+                padding: 16px 10px;
+                font-size: 1.15rem;
+            }
+
+            .staff-container {
+                height: 140px;
+            }
+
+            .feedback-message {
+                padding: 25px 20px;
+            }
+
+            .feedback-text {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="score-display">
+            <div class="score-item">
+                <div class="score-label">Niveau</div>
+                <div class="score-value" id="level-display">1</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Score</div>
+                <div class="score-value" id="score-display">0/0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Série</div>
+                <div class="score-value" id="streak-display"><span data-icon="fire" data-icon-size="sm"></span> 0</div>
+            </div>
+        </div>
+        <button class="quit-button" onclick="quitExercise()">✕ Quitter</button>
+    </div>
+    
+    <div class="container">
+        <div class="exercise-card">
+            <div class="question-header">
+                <h2 class="question-text">Quelle est cette note ? <span data-icon="musicNote" data-icon-size="sm"></span></h2>
+                <div class="mascot-helper">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="35" fill="#FFD4E5"/>
+                        <path d="M 30 30 L 20 15 L 35 28 Z" fill="#FFD4E5"/>
+                        <path d="M 70 30 L 80 15 L 65 28 Z" fill="#FFD4E5"/>
+                        <circle cx="40" cy="45" r="4" fill="#4A4A68"/>
+                        <circle cx="60" cy="45" r="4" fill="#4A4A68"/>
+                        <path d="M 40 55 Q 50 60 60 55" stroke="#9B86BD" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="staff-container">
+                <svg class="staff-svg" viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 5 lignes de portee -->
+                    <line x1="20" y1="40" x2="380" y2="40" stroke="#4A4A68" stroke-width="1.2" stroke-opacity="0.5"/>
+                    <line x1="20" y1="55" x2="380" y2="55" stroke="#4A4A68" stroke-width="1.2" stroke-opacity="0.5"/>
+                    <line x1="20" y1="70" x2="380" y2="70" stroke="#4A4A68" stroke-width="1.2" stroke-opacity="0.5"/>
+                    <line x1="20" y1="85" x2="380" y2="85" stroke="#4A4A68" stroke-width="1.2" stroke-opacity="0.5"/>
+                    <line x1="20" y1="100" x2="380" y2="100" stroke="#4A4A68" stroke-width="1.2" stroke-opacity="0.5"/>
+
+                    <!-- Cle de sol SVG dessinee main -->
+                    <g id="clef-group" transform="translate(30, 28)">
+                        <!-- Cle de sol - style ligne fine aquarelle -->
+                        <path d="M 22 72 C 22 72 16 65 16 56 C 16 46 22 38 28 32 C 34 26 34 18 30 12 C 26 6 22 2 22 2"
+                            fill="none" stroke="#9B86BD" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.8"/>
+                        <path d="M 22 2 C 22 2 28 8 30 16 C 32 24 28 30 22 36 C 16 42 12 50 14 58 C 16 66 22 72 30 72 C 38 72 42 66 42 58 C 42 50 36 46 30 48 C 24 50 22 56 24 60"
+                            fill="none" stroke="#9B86BD" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.8"/>
+                        <!-- Boucle inferieure -->
+                        <path d="M 22 72 C 22 78 20 84 22 88"
+                            fill="none" stroke="#9B86BD" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.8"/>
+                        <!-- Point bas -->
+                        <circle cx="22" cy="88" r="3" fill="#9B86BD" fill-opacity="0.6"/>
+                        <!-- Aquarelle subtile derriere -->
+                        <ellipse cx="26" cy="45" rx="14" ry="30" fill="#E5D4FF" fill-opacity="0.15"/>
+                    </g>
+
+                    <!-- Cle de fa SVG (cachee par defaut) -->
+                    <g id="clef-fa-group" transform="translate(30, 28)" style="display:none">
+                        <path d="M 18 22 C 24 22 30 28 30 36 C 30 44 24 50 16 50 C 10 50 8 46 10 42"
+                            fill="none" stroke="#9B86BD" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.8"/>
+                        <path d="M 18 22 L 18 68"
+                            fill="none" stroke="#9B86BD" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.8"/>
+                        <circle cx="36" cy="30" r="3" fill="#9B86BD" fill-opacity="0.7"/>
+                        <circle cx="36" cy="42" r="3" fill="#9B86BD" fill-opacity="0.7"/>
+                        <ellipse cx="22" cy="42" rx="12" ry="22" fill="#E5D4FF" fill-opacity="0.15"/>
+                    </g>
+
+                    <!-- Note a deviner -->
+                    <g id="note-group" class="staff-note-group animate-in">
+                        <!-- Ligne supplementaire (pour Do sous la portee) -->
+                        <line id="ledger-line" x1="195" y1="115" x2="245" y2="115" stroke="#4A4A68" stroke-width="1.2" stroke-opacity="0" stroke-linecap="round"/>
+                        <!-- Tete de note -->
+                        <ellipse id="note-head" cx="220" cy="115" rx="12" ry="9" transform="rotate(-15 220 115)"
+                            fill="#6B9BD1" fill-opacity="0.7" stroke="#4A4A68" stroke-width="1.8"/>
+                        <!-- Halo aquarelle -->
+                        <ellipse id="note-glow" cx="220" cy="115" rx="16" ry="12" transform="rotate(-15 220 115)"
+                            fill="#B4D4FF" fill-opacity="0.2"/>
+                        <!-- Tige -->
+                        <line id="note-stem" x1="231" y1="112" x2="231" y2="55" stroke="#4A4A68" stroke-width="2" stroke-linecap="round"/>
+                    </g>
+                </svg>
+            </div>
+            
+            <center>
+                <button class="listen-button" onclick="playCurrentNote()"><span data-icon="speakerOn" data-icon-size="sm"></span> Écouter la note</button>
+            </center>
+            
+            <div class="answers-grid" id="answers-grid">
+                <!-- Les boutons seront générés dynamiquement -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="feedback-message" id="feedback">
+        <div class="feedback-icon" id="feedbackIcon" data-icon="celebration" data-icon-size="xl"></div>
+        <div class="feedback-text" id="feedbackText">Bravo !</div>
+    </div>
+    
+    <!-- Modale de fin d'exercice -->
+    <div class="feedback-message" id="end-modal" style="min-width:300px">
+        <div class="feedback-icon" id="endModalIcon"></div>
+        <div class="feedback-text" id="endModalTitle" style="margin-bottom:10px"></div>
+        <div id="endModalStars" style="margin:15px 0;display:flex;justify-content:center;gap:8px"></div>
+        <div id="endModalDetails" style="color:#7A7A9E;font-size:1.1rem;margin-bottom:20px"></div>
+        <button class="listen-button" onclick="navigateTo('niveaux.html')" style="font-size:1.2rem;padding:15px 40px">Continuer</button>
+    </div>
+
+    <script src="icons.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Configuration des niveaux
+        const levelConfig = {
+            1: {
+                notes: ['Do', 'Mi', 'Sol'],
+                clef: 'sol',
+                iconFn: 'cat'
+            },
+            2: {
+                notes: ['Do', 'Ré', 'Mi', 'Fa', 'Sol'],
+                clef: 'sol',
+                iconFn: 'fox'
+            },
+            3: {
+                notes: ['Do', 'Ré', 'Mi', 'Fa', 'Sol'],
+                clef: 'fa',
+                iconFn: 'bear'
+            }
+        };
+
+        // Positions Y des notes sur la portee (viewBox 0-160)
+        // Lignes de portee: y=40, 55, 70, 85, 100
+        // Espacement = 15 entre lignes, 7.5 entre ligne et interligne
+        // Cle de sol: Do4 est sous la portee (ligne supplementaire)
+        const notePositionsSol = {
+            'Do': 115,   // Ligne supplementaire sous la portee
+            'Ré': 107.5, // Juste sous la 5e ligne
+            'Mi': 100,   // 5e ligne (la plus basse)
+            'Fa': 92.5,  // Entre 4e et 5e ligne
+            'Sol': 85,   // 4e ligne
+            'La': 77.5,  // Entre 3e et 4e ligne
+            'Si': 70     // 3e ligne (milieu)
+        };
+        // Cle de fa: positions differentes (Do3 = ligne supplementaire au-dessus n'est pas pratique,
+        // on utilise les memes notes mais positionnees differemment en cle de fa)
+        const notePositionsFa = {
+            'Do': 85,    // 4e ligne
+            'Ré': 77.5,  // Entre 3e et 4e ligne
+            'Mi': 70,    // 3e ligne (milieu)
+            'Fa': 62.5,  // Entre 2e et 3e ligne
+            'Sol': 55,   // 2e ligne
+            'La': 47.5,  // Entre 1e et 2e ligne
+            'Si': 40     // 1e ligne (la plus haute)
+        };
+
+        let currentNote = '';
+        let questionCount = 0;
+        const maxQuestions = 10;
+
+        // Positionner la note sur la portee
+        function positionNote(noteName, clefType) {
+            const positions = clefType === 'fa' ? notePositionsFa : notePositionsSol;
+            const y = positions[noteName] || 85;
+
+            const noteHead = document.getElementById('note-head');
+            const noteGlow = document.getElementById('note-glow');
+            const noteStem = document.getElementById('note-stem');
+            const ledgerLine = document.getElementById('ledger-line');
+            const noteGroup = document.getElementById('note-group');
+
+            // Animer l'apparition
+            noteGroup.classList.remove('animate-in');
+            void noteGroup.offsetWidth; // force reflow
+            noteGroup.classList.add('animate-in');
+
+            // Positionner la tete de note
+            noteHead.setAttribute('cy', y);
+            noteHead.setAttribute('transform', `rotate(-15 220 ${y})`);
+            noteGlow.setAttribute('cy', y);
+            noteGlow.setAttribute('transform', `rotate(-15 220 ${y})`);
+
+            // Tige : vers le haut si la note est basse, vers le bas si haute
+            if (y >= 70) {
+                // Note basse ou milieu -> tige vers le haut
+                noteStem.setAttribute('x1', '231');
+                noteStem.setAttribute('y1', y - 3);
+                noteStem.setAttribute('x2', '231');
+                noteStem.setAttribute('y2', y - 55);
+            } else {
+                // Note haute -> tige vers le bas
+                noteStem.setAttribute('x1', '209');
+                noteStem.setAttribute('y1', y + 3);
+                noteStem.setAttribute('x2', '209');
+                noteStem.setAttribute('y2', y + 55);
+            }
+
+            // Ligne supplementaire pour Do en cle de sol (y=115)
+            if (clefType === 'sol' && noteName === 'Do') {
+                ledgerLine.setAttribute('y1', y);
+                ledgerLine.setAttribute('y2', y);
+                ledgerLine.setAttribute('stroke-opacity', '0.5');
+            } else {
+                ledgerLine.setAttribute('stroke-opacity', '0');
+            }
+        }
+
+        // Afficher la bonne cle
+        function showClef(clefType) {
+            document.getElementById('clef-group').style.display = clefType === 'sol' ? 'block' : 'none';
+            document.getElementById('clef-fa-group').style.display = clefType === 'fa' ? 'block' : 'none';
+        }
+
+        // Initialiser l'exercice
+        function initExercise() {
+            const level = app.state.currentSession.level;
+            const config = levelConfig[level];
+
+            // Mettre à jour l'affichage du niveau
+            document.getElementById('level-display').innerHTML = `${level} ${SolFunIcons[config.iconFn]('sm')}`;
+
+            // Afficher la bonne cle
+            showClef(config.clef);
+
+            // Générer une nouvelle question
+            generateQuestion();
+            updateScoreDisplay();
+        }
+
+        function generateQuestion() {
+            if (questionCount >= maxQuestions) {
+                endExercise();
+                return;
+            }
+
+            const level = app.state.currentSession.level;
+            const config = levelConfig[level];
+
+            // Choisir une note aléatoire
+            currentNote = config.notes[Math.floor(Math.random() * config.notes.length)];
+
+            // Positionner la note sur la portee
+            positionNote(currentNote, config.clef);
+
+            // Générer les boutons de réponse
+            const answersGrid = document.getElementById('answers-grid');
+            answersGrid.innerHTML = '';
+
+            config.notes.forEach(note => {
+                const button = document.createElement('button');
+                button.className = 'answer-button';
+                button.textContent = note;
+                button.onclick = () => checkAnswer(note, button);
+                answersGrid.appendChild(button);
+            });
+
+            // Jouer la note automatiquement
+            setTimeout(() => {
+                playCurrentNote();
+            }, 500);
+
+            questionCount++;
+        }
+
+        function playCurrentNote() {
+            sound.playNote(currentNote);
+        }
+
+        function checkAnswer(selectedNote, button) {
+            const isCorrect = selectedNote === currentNote;
+
+            // Désactiver tous les boutons
+            document.querySelectorAll('.answer-button').forEach(btn => {
+                btn.disabled = true;
+            });
+
+            const feedback = document.getElementById('feedback');
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackText = document.getElementById('feedbackText');
+
+            if (isCorrect) {
+                button.classList.add('correct');
+                feedbackIcon.innerHTML = SolFunIcons.celebration('xl');
+                feedbackText.textContent = 'Bravo ! C\'est la bonne réponse !';
+                sound.playSuccess();
+                app.updateStats(true);
+            } else {
+                button.classList.add('incorrect');
+                feedbackIcon.innerHTML = SolFunIcons.oops('xl');
+                feedbackText.textContent = 'Presque ! C\'était ' + currentNote + ' !';
+                sound.playError();
+                app.updateStats(false);
+
+                // Montrer la bonne réponse
+                setTimeout(() => {
+                    document.querySelectorAll('.answer-button').forEach(btn => {
+                        if (btn.textContent === currentNote) {
+                            btn.classList.add('correct');
+                        }
+                    });
+                }, 1000);
+            }
+
+            updateScoreDisplay();
+
+            // Afficher le feedback
+            setTimeout(() => {
+                feedback.classList.add('show');
+            }, 500);
+
+            // Cacher le feedback et passer à la question suivante
+            setTimeout(() => {
+                feedback.classList.remove('show');
+                setTimeout(() => {
+                    generateQuestion();
+                }, 400);
+            }, 2500);
+        }
+
+        function updateScoreDisplay() {
+            const session = app.state.currentSession;
+            document.getElementById('score-display').textContent = `${session.score}/${session.total}`;
+            document.getElementById('streak-display').innerHTML = `${SolFunIcons.fire('sm')} ${session.streak}`;
+        }
+
+        function endExercise() {
+            const session = app.state.currentSession;
+            const successRate = session.total > 0 ? Math.round((session.score / session.total) * 100) : 0;
+
+            // Calculer les étoiles (1-3)
+            let stars = 0;
+            if (successRate >= 90) stars = 3;
+            else if (successRate >= 70) stars = 2;
+            else if (successRate >= 50) stars = 1;
+
+            // Sauvegarder la progression
+            const levelKey = `level${session.level}`;
+            if (!app.state.progress[levelKey] || stars > app.state.progress[levelKey].stars) {
+                app.state.progress[levelKey].stars = stars;
+                app.state.progress[levelKey].completed = true;
+                app.saveState();
+            }
+
+            // Afficher la modale de fin
+            const modal = document.getElementById('end-modal');
+            document.getElementById('endModalIcon').innerHTML = SolFunIcons.trophy('xl');
+            document.getElementById('endModalTitle').textContent = 'Exercice terminé !';
+            document.getElementById('endModalStars').innerHTML = repeatIcon('star', stars, 'lg') + repeatIcon('starEmpty', 3 - stars, 'lg');
+            document.getElementById('endModalDetails').textContent = `Score : ${session.score}/${session.total} (${successRate}%)`;
+            modal.classList.add('show');
+        }
+
+        function quitExercise() {
+            if (confirm('Es-tu sûr de vouloir quitter cet exercice ?')) {
+                navigateTo('niveaux.html');
+            }
+        }
+
+        // Démarrer l'exercice
+        initExercise();
+    </script>
+</body>
+</html>

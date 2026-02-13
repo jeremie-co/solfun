@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#FFE5CC">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Choisis ton niveau - SolFun</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pastel-pink: #FFD4E5;
+            --pastel-blue: #B4D4FF;
+            --pastel-lavender: #E5D4FF;
+            --pastel-peach: #FFE5CC;
+            --pastel-mint: #D4FFEA;
+            --soft-purple: #9B86BD;
+            --deep-blue: #6B9BD1;
+            --white: #FFFFFF;
+            --text-dark: #4A4A68;
+            --text-light: #7A7A9E;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--pastel-peach) 0%, var(--pastel-pink) 50%, var(--pastel-lavender) 100%);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            padding: 20px;
+            padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        .header {
+            max-width: 1000px;
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .back-button {
+            background: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            color: var(--soft-purple);
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(155, 134, 189, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover,
+        .back-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(155, 134, 189, 0.3);
+        }
+        
+        .page-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.5rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(155, 134, 189, 0.3);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .level-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(155, 134, 189, 0.15);
+        }
+        
+        .level-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--pastel-blue), var(--pastel-lavender));
+        }
+        
+        .level-card.level-1:before { background: linear-gradient(90deg, var(--pastel-mint), var(--pastel-blue)); }
+        .level-card.level-2:before { background: linear-gradient(90deg, var(--pastel-peach), var(--pastel-pink)); }
+        .level-card.level-3:before { background: linear-gradient(90deg, var(--pastel-lavender), var(--soft-purple)); }
+        
+        .level-card:hover,
+        .level-card:active {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(155, 134, 189, 0.3);
+        }
+        
+        .level-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .level-number {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--deep-blue), var(--soft-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stars {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .star {
+            opacity: 1;
+            display: inline-block;
+        }
+
+        .star.earned {
+            opacity: 1;
+        }
+        
+        .level-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+        
+        .level-description {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        
+        .level-details {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .detail-badge {
+            background: var(--pastel-mint);
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        
+        .level-card.level-1 .detail-badge { background: var(--pastel-mint); }
+        .level-card.level-2 .detail-badge { background: var(--pastel-peach); }
+        .level-card.level-3 .detail-badge { background: var(--pastel-lavender); }
+        
+        .settings-panel {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(155, 134, 189, 0.15);
+        }
+        
+        .settings-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            color: var(--soft-purple);
+            margin-bottom: 20px;
+        }
+        
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--pastel-blue);
+        }
+        
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-label {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        
+        .speed-control {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .speed-button {
+            width: 44px;
+            height: 44px;
+            border: 2px solid var(--pastel-blue);
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .speed-button.active {
+            background: linear-gradient(135deg, var(--deep-blue), var(--soft-purple));
+            color: white;
+            border-color: transparent;
+        }
+        
+        .speed-button:hover:not(.active),
+        .speed-button:active:not(.active) {
+            background: var(--pastel-blue);
+        }
+        
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .levels-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .level-card {
+                padding: 22px;
+            }
+
+            .level-card:active {
+                transform: translateY(-4px) scale(1.01);
+            }
+
+            .settings-panel {
+                padding: 22px;
+            }
+
+            .speed-button {
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .back-button {
+                padding: 10px 18px;
+                font-size: 0.95rem;
+            }
+
+            .level-card {
+                padding: 18px;
+            }
+
+            .level-number {
+                font-size: 2.5rem;
+            }
+
+            .level-title {
+                font-size: 1.2rem;
+            }
+
+            .level-description {
+                font-size: 0.9rem;
+            }
+
+            .detail-badge {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-button" onclick="navigateTo('index.html')">← Retour</button>
+        <h1 class="page-title"><span data-icon="musicNote" data-icon-size="sm"></span> Choisis ton niveau</h1>
+        <div style="width: 120px;"></div>
+    </div>
+    
+    <div class="container">
+        <div class="levels-grid">
+            <div class="level-card level-1" onclick="startLevel(1)">
+                <div class="level-header">
+                    <div class="level-number">1</div>
+                    <div class="stars" id="stars-1">
+                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
+                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
+                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
+                    </div>
+                </div>
+                <h3 class="level-title">Débutant <span data-icon="cat" data-icon-size="sm"></span></h3>
+                <p class="level-description">
+                    Découvre tes premières notes : Do, Mi et Sol ! Facile et amusant pour commencer.
+                </p>
+                <div class="level-details">
+                    <span class="detail-badge"><span data-icon="musicalScore" data-icon-size="sm"></span> 3 notes</span>
+                    <span class="detail-badge"><span data-icon="piano" data-icon-size="sm"></span> Clé de Sol</span>
+                    <span class="detail-badge"><span data-icon="timer" data-icon-size="sm"></span> 5 min</span>
+                </div>
+            </div>
+
+            <div class="level-card level-2" onclick="startLevel(2)">
+                <div class="level-header">
+                    <div class="level-number">2</div>
+                    <div class="stars" id="stars-2">
+                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
+                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
+                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
+                    </div>
+                </div>
+                <h3 class="level-title">Explorateur <span data-icon="fox" data-icon-size="sm"></span></h3>
+                <p class="level-description">
+                    Plus de notes à découvrir : Do, Ré, Mi, Fa, Sol ! Tu progresses super bien.
+                </p>
+                <div class="level-details">
+                    <span class="detail-badge"><span data-icon="musicalScore" data-icon-size="sm"></span> 5 notes</span>
+                    <span class="detail-badge"><span data-icon="piano" data-icon-size="sm"></span> Clé de Sol</span>
+                    <span class="detail-badge"><span data-icon="timer" data-icon-size="sm"></span> 10 min</span>
+                </div>
+            </div>
+
+            <div class="level-card level-3" onclick="startLevel(3)">
+                <div class="level-header">
+                    <div class="level-number">3</div>
+                    <div class="stars" id="stars-3">
+                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
+                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
+                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
+                    </div>
+                </div>
+                <h3 class="level-title">Aventurier <span data-icon="bear" data-icon-size="sm"></span></h3>
+                <p class="level-description">
+                    Maintenant, explore la clé de Fa ! Une nouvelle aventure musicale t'attend.
+                </p>
+                <div class="level-details">
+                    <span class="detail-badge"><span data-icon="musicalScore" data-icon-size="sm"></span> 5 notes</span>
+                    <span class="detail-badge"><span data-icon="musicNote" data-icon-size="sm"></span> Clé de Fa</span>
+                    <span class="detail-badge"><span data-icon="timer" data-icon-size="sm"></span> 10 min</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-panel">
+            <h3 class="settings-title"><span data-icon="gear" data-icon-size="sm"></span> Réglages</h3>
+            <div class="setting-row">
+                <span class="setting-label">Vitesse d'affichage</span>
+                <div class="speed-control">
+                    <button class="speed-button" id="speed-slow" onclick="setSpeed('slow')" data-icon="turtle" data-icon-size="24"></button>
+                    <button class="speed-button active" id="speed-normal" onclick="setSpeed('normal')" data-icon="walker" data-icon-size="24"></button>
+                    <button class="speed-button" id="speed-fast" onclick="setSpeed('fast')" data-icon="runner" data-icon-size="24"></button>
+                </div>
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">Son activé</span>
+                <button class="speed-button active" id="sound-toggle" onclick="toggleSound()" data-icon="speakerOn" data-icon-size="24"></button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="icons.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Charger et afficher la progression sauvegardée
+        function loadProgress() {
+            const progress = app.state.progress;
+
+            // Afficher les étoiles gagnées pour chaque niveau
+            for (let i = 1; i <= 3; i++) {
+                const starEls = document.querySelectorAll(`#stars-${i} .star`);
+                const levelProgress = progress[`level${i}`];
+                if (levelProgress) {
+                    for (let j = 0; j < levelProgress.stars && j < starEls.length; j++) {
+                        starEls[j].innerHTML = SolFunIcons.star('sm');
+                        starEls[j].classList.add('earned');
+                    }
+                }
+            }
+
+            // Charger les paramètres
+            const speed = app.state.settings.speed;
+            document.querySelectorAll('.speed-control .speed-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`speed-${speed}`).classList.add('active');
+
+            const soundBtn = document.getElementById('sound-toggle');
+            soundBtn.innerHTML = app.state.settings.soundEnabled ? SolFunIcons.speakerOn(24) : SolFunIcons.speakerOff(24);
+            soundBtn.classList.toggle('active', app.state.settings.soundEnabled);
+        }
+
+        function startLevel(levelNum) {
+            app.startLevel(levelNum);
+            navigateTo('exercice.html');
+        }
+
+        function setSpeed(speed) {
+            app.setSpeed(speed);
+            document.querySelectorAll('.speed-control .speed-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`speed-${speed}`).classList.add('active');
+        }
+
+        function toggleSound() {
+            const enabled = app.toggleSound();
+            const button = document.getElementById('sound-toggle');
+            button.innerHTML = enabled ? SolFunIcons.speakerOn(24) : SolFunIcons.speakerOff(24);
+            button.classList.toggle('active', enabled);
+        }
+
+        // Initialiser
+        loadProgress();
+    </script>
+</body>
+</html>

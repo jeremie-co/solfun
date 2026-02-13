@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#B4D4FF">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23B4D4FF' width='180' height='180' rx='40'/><text x='90' y='130' font-size='120' text-anchor='middle' fill='%239B86BD'>♪</text></svg>">
+    <title>SolFun - Apprendre le Solfège en S'amusant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pastel-pink: #FFD4E5;
+            --pastel-blue: #B4D4FF;
+            --pastel-lavender: #E5D4FF;
+            --pastel-peach: #FFE5CC;
+            --pastel-mint: #D4FFEA;
+            --soft-purple: #9B86BD;
+            --deep-blue: #6B9BD1;
+            --white: #FFFFFF;
+            --text-dark: #4A4A68;
+            --text-light: #7A7A9E;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--pastel-blue) 0%, var(--pastel-lavender) 50%, var(--pastel-pink) 100%);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+        
+        .floating-notes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .note {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .note:nth-child(1) { left: 10%; animation-delay: 0s; top: 20%; }
+        .note:nth-child(2) { left: 80%; animation-delay: 3s; top: 60%; }
+        .note:nth-child(3) { left: 50%; animation-delay: 6s; top: 80%; }
+        .note:nth-child(4) { left: 20%; animation-delay: 9s; top: 50%; }
+        .note:nth-child(5) { left: 70%; animation-delay: 12s; top: 30%; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 40px;
+            padding: 60px 40px;
+            box-shadow: 
+                0 20px 60px rgba(155, 134, 189, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo-area {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .mascot {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 20px;
+            position: relative;
+            animation: bounce 2s infinite ease-in-out;
+            cursor: pointer;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .mascot svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 10px 20px rgba(155, 134, 189, 0.2));
+        }
+        
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--soft-purple);
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        .description {
+            text-align: center;
+            margin: 30px 0 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, var(--pastel-mint) 0%, var(--pastel-blue) 100%);
+            border-radius: 20px;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 25px;
+            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--soft-purple) 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(155, 134, 189, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .cta-button:hover:before,
+        .cta-button:active:before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cta-button:hover,
+        .cta-button:active {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(155, 134, 189, 0.5);
+        }
+        
+        .cta-button span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--pastel-lavender);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .feature-card:hover,
+        .feature-card:active {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(155, 134, 189, 0.2);
+            border-color: var(--soft-purple);
+        }
+        
+        .feature-icon {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .feature-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--soft-purple);
+        }
+        
+        .menu-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            color: var(--soft-purple);
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(155, 134, 189, 0.2);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .menu-button:hover,
+        .menu-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(155, 134, 189, 0.3);
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 25px;
+                border-radius: 30px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .mascot {
+                width: 140px;
+                height: 140px;
+            }
+
+            .features {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .menu-button {
+                position: fixed;
+                top: max(10px, env(safe-area-inset-top));
+                right: max(10px, env(safe-area-inset-right));
+                padding: 10px 16px;
+                font-size: 0.95rem;
+                border-radius: 12px;
+            }
+
+            .cta-button {
+                padding: 20px;
+                font-size: 1.3rem;
+            }
+
+            .feature-card {
+                padding: 15px;
+                min-height: 80px;
+            }
+
+            .description {
+                font-size: 1rem;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .container {
+                padding: 30px 18px;
+            }
+
+            h1 {
+                font-size: 1.9rem;
+            }
+
+            .mascot {
+                width: 110px;
+                height: 110px;
+            }
+
+            .features {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .feature-card {
+                padding: 12px;
+            }
+
+            .menu-button {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-button" onclick="navigateTo('progression.html')"><span data-icon="barChart" data-icon-size="sm"></span> Ma progression</button>
+    
+    <div class="floating-notes">
+        <div class="note" data-icon="musicNote" data-icon-size="lg"></div>
+        <div class="note" data-icon="doubleNote" data-icon-size="lg"></div>
+        <div class="note" data-icon="musicNote" data-icon-size="lg"></div>
+        <div class="note" data-icon="doubleNote" data-icon-size="lg"></div>
+        <div class="note" data-icon="musicNote" data-icon-size="lg"></div>
+    </div>
+    
+    <div class="container">
+        <div class="logo-area">
+            <div class="mascot" onclick="sound.playNote('Do', 0.3)">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="100" cy="120" rx="45" ry="50" fill="#FFD4E5"/>
+                    <circle cx="100" cy="70" r="40" fill="#FFD4E5"/>
+                    <path d="M 70 50 L 60 20 L 80 40 Z" fill="#FFD4E5"/>
+                    <path d="M 130 50 L 140 20 L 120 40 Z" fill="#FFD4E5"/>
+                    <path d="M 73 43 L 68 28 L 80 40 Z" fill="#FFE5CC"/>
+                    <path d="M 127 43 L 132 28 L 120 40 Z" fill="#FFE5CC"/>
+                    <circle cx="85" cy="65" r="6" fill="#4A4A68"/>
+                    <circle cx="115" cy="65" r="6" fill="#4A4A68"/>
+                    <circle cx="87" cy="63" r="2" fill="white"/>
+                    <circle cx="117" cy="63" r="2" fill="white"/>
+                    <circle cx="100" cy="75" r="4" fill="#9B86BD"/>
+                    <line x1="60" y1="70" x2="40" y2="68" stroke="#4A4A68" stroke-width="2"/>
+                    <line x1="60" y1="75" x2="40" y2="75" stroke="#4A4A68" stroke-width="2"/>
+                    <line x1="140" y1="70" x2="160" y2="68" stroke="#4A4A68" stroke-width="2"/>
+                    <line x1="140" y1="75" x2="160" y2="75" stroke="#4A4A68" stroke-width="2"/>
+                    <circle cx="140" cy="100" r="8" fill="#B4D4FF"/>
+                    <rect x="146" y="70" width="3" height="30" fill="#B4D4FF"/>
+                    <path d="M 149 70 Q 158 68 158 75" stroke="#B4D4FF" stroke-width="3" fill="none"/>
+                    <ellipse cx="75" cy="165" rx="12" ry="8" fill="#FFE5CC"/>
+                    <ellipse cx="125" cy="165" rx="12" ry="8" fill="#FFE5CC"/>
+                    <path d="M 90 82 Q 100 88 110 82" stroke="#9B86BD" stroke-width="2" fill="none" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h1>SolFun</h1>
+            <p class="subtitle">Apprendre le solfège en s'amusant !</p>
+        </div>
+        
+        <div class="description">
+            <span data-icon="musicNote" data-icon-size="sm"></span> Découvre les notes, les rythmes et deviens un champion de la musique ! Avec ton ami le chat musicien, chaque leçon devient une aventure <span data-icon="doubleNote" data-icon-size="sm"></span>
+        </div>
+        
+        <button class="cta-button" onclick="navigateTo('niveaux.html')">
+            <span><span data-icon="piano" data-icon-size="sm"></span> Commencer à jouer !</span>
+        </button>
+        
+        <div class="features">
+            <div class="feature-card" onclick="navigateTo('niveaux.html')">
+                <div class="feature-icon" data-icon="musicalScore" data-icon-size="lg"></div>
+                <div class="feature-title">Apprends les notes</div>
+            </div>
+            <div class="feature-card" onclick="navigateTo('niveaux.html')">
+                <div class="feature-icon" data-icon="drum" data-icon-size="lg"></div>
+                <div class="feature-title">Maîtrise le rythme</div>
+            </div>
+            <div class="feature-card" onclick="navigateTo('progression.html')">
+                <div class="feature-icon" data-icon="star" data-icon-size="lg"></div>
+                <div class="feature-title">Gagne des badges</div>
+            </div>
+            <div class="feature-card" onclick="navigateTo('progression.html')">
+                <div class="feature-icon" data-icon="chartUp" data-icon-size="lg"></div>
+                <div class="feature-title">Progresse à ton rythme</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="icons.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
