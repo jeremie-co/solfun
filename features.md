@@ -12,28 +12,28 @@ Ce document liste toutes les fonctionnalités planifiées pour l'application Sol
 ## 2️⃣ EXERCICES DE LECTURE DE NOTES
 
 ### 2.1 Reconnaissance notes - Clé de Sol (MVP)
-- [ ] **MVP-2.1.1** - Afficher aléatoirement une note sur une portée en clé de Sol
-- [ ] **MVP-2.1.2** - Générer 5 boutons de réponse (Do, Ré, Mi, Fa, Sol)
-- [ ] **MVP-2.1.3** - Valider la réponse de l'utilisateur
-- [ ] **MVP-2.1.4** - Afficher un feedback visuel immédiat (vert=correct, rouge=incorrect)
-- [ ] **MVP-2.1.5** - Jouer un son de succès ou d'erreur
-- [ ] **MVP-2.1.6** - Compter les bonnes réponses en temps réel
+- [x] **MVP-2.1.1** - Afficher aléatoirement une note sur une portée en clé de Sol
+- [x] **MVP-2.1.2** - Générer 5 boutons de réponse (Do, Ré, Mi, Fa, Sol)
+- [x] **MVP-2.1.3** - Valider la réponse de l'utilisateur
+- [x] **MVP-2.1.4** - Afficher un feedback visuel immédiat (vert=correct, rouge=incorrect)
+- [x] **MVP-2.1.5** - Jouer un son de succès ou d'erreur
+- [x] **MVP-2.1.6** - Compter les bonnes réponses en temps réel
 
 ### 2.2 Reconnaissance notes - Clé de Fa (MVP)
-- [ ] **MVP-2.2.1** - Afficher aléatoirement une note sur une portée en clé de Fa
-- [ ] **MVP-2.2.2** - Générer 5 boutons de réponse adaptés à la clé de Fa
-- [ ] **MVP-2.2.3** - Valider et donner un feedback comme pour clé de Sol
+- [x] **MVP-2.2.1** - Afficher aléatoirement une note sur une portée en clé de Fa
+- [x] **MVP-2.2.2** - Générer 5 boutons de réponse adaptés à la clé de Fa
+- [x] **MVP-2.2.3** - Valider et donner un feedback comme pour clé de Sol
 
 ### 2.3 Système de niveaux progressifs (MVP)
-- [ ] **MVP-2.3.1** - Créer Niveau 1 : 3 notes (Do, Mi, Sol) clé de Sol uniquement
-- [ ] **MVP-2.3.2** - Créer Niveau 2 : 5 notes (Do, Ré, Mi, Fa, Sol) clé de Sol uniquement
-- [ ] **MVP-2.3.3** - Créer Niveau 3 : 5 notes en clé de Fa
-- [ ] **MVP-2.3.4** - Permettre la sélection du niveau avant de commencer
+- [x] **MVP-2.3.1** - Créer Niveau 1 : 3 notes (Do, Mi, Sol) clé de Sol uniquement
+- [x] **MVP-2.3.2** - Créer Niveau 2 : 5 notes (Do, Ré, Mi, Fa, Sol) clé de Sol uniquement
+- [x] **MVP-2.3.3** - Créer Niveau 3 : 5 notes en clé de Fa
+- [x] **MVP-2.3.4** - Permettre la sélection du niveau avant de commencer
 
 ### 2.4 Audio des notes (MVP)
-- [ ] **MVP-2.4.1** - Jouer automatiquement le son de la note affichée (son de piano)
-- [ ] **MVP-2.4.2** - Ajouter un bouton "Réécouter" pour répéter le son
-- [ ] **MVP-2.4.3** - Charger et stocker les fichiers audio des notes (Do à Si)
+- [x] **MVP-2.4.1** - Jouer automatiquement le son de la note affichée (son de piano)
+- [x] **MVP-2.4.2** - Ajouter un bouton "Réécouter" pour répéter le son
+- [x] **MVP-2.4.3** - Charger et stocker les fichiers audio des notes (Do à Si)
 
 ### 2.5 Extension gamme de notes (P1)
 - [ ] **P1-2.5.1** - Étendre à l'octave complète (7 notes : Do à Si)
