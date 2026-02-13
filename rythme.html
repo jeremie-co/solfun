@@ -36,9 +36,7 @@
             font-family: 'Quicksand', sans-serif;
             background: linear-gradient(135deg, var(--pastel-peach) 0%, var(--pastel-pink) 100%);
             min-height: 100vh;
-            min-height: -webkit-fill-available;
             padding: 20px;
-            padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
             -webkit-text-size-adjust: 100%;
         }
 
@@ -89,12 +87,6 @@
             transition: all 0.3s ease;
         }
 
-        .quit-button:hover,
-        .quit-button:active {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 155, 155, 0.4);
-        }
-
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -108,16 +100,63 @@
             margin-bottom: 30px;
         }
 
-        .question-header {
+        .metronome-section {
+            background: linear-gradient(135deg, var(--pastel-lavender), var(--pastel-blue));
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
             text-align: center;
-            margin-bottom: 40px;
         }
 
-        .question-text {
+        .metronome-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .metronome-button {
+            background: white;
+            border: 2px solid var(--soft-purple);
+            padding: 12px 30px;
+            border-radius: 15px;
             font-family: 'Fredoka', sans-serif;
-            font-size: 1.8rem;
-            color: var(--text-dark);
-            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--soft-purple);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .metronome-button.active {
+            background: var(--soft-purple);
+            color: white;
+        }
+
+        .bpm-control {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .bpm-button {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 2px solid var(--soft-purple);
+            border-radius: 10px;
+            font-size: 1.2rem;
+            color: var(--soft-purple);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bpm-display {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            min-width: 100px;
         }
 
         .rhythm-display {
@@ -131,12 +170,6 @@
             padding: 40px;
         }
 
-        .rhythm-svg {
-            width: 100%;
-            max-width: 400px;
-            height: 150px;
-        }
-
         .measure-display {
             display: flex;
             gap: 20px;
@@ -145,19 +178,38 @@
             flex-wrap: wrap;
         }
 
-        .note-figure {
-            animation: noteAppear 0.5s ease-out;
+        .rhythm-svg {
+            width: 100%;
+            max-width: 400px;
+            height: 150px;
         }
 
-        @keyframes noteAppear {
-            from {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .tap-zone {
+            background: var(--pastel-peach);
+            border: 3px dashed var(--soft-purple);
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .tap-zone:active {
+            transform: scale(0.95);
+            background: var(--pastel-pink);
+        }
+
+        .tap-zone-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            color: var(--soft-purple);
+            margin-bottom: 10px;
+        }
+
+        .tap-hint {
+            color: var(--text-light);
+            font-size: 1rem;
         }
 
         .answers-grid {
@@ -177,113 +229,40 @@
             color: var(--soft-purple);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .answer-button:hover,
-        .answer-button:active {
-            transform: translateY(-5px) scale(1.05);
-            border-color: var(--soft-purple);
-            box-shadow: 0 10px 30px rgba(155, 134, 189, 0.3);
         }
 
         .answer-button.correct {
             background: var(--success-green);
             border-color: var(--success-green);
             color: white;
-            animation: successPulse 0.6s ease;
         }
 
         .answer-button.incorrect {
             background: var(--error-red);
             border-color: var(--error-red);
             color: white;
-            animation: shake 0.5s ease;
         }
 
-        .answer-button:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
+        @keyframes noteAppear {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        @keyframes successPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        .feedback-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: white;
-            padding: 40px 60px;
-            border-radius: 25px;
-            box-shadow: 0 20px 60px rgba(155, 134, 189, 0.4);
-            z-index: 1000;
-            text-align: center;
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        .feedback-message.show {
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .feedback-icon {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .feedback-text {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 2rem;
-            color: var(--text-dark);
+        .note-figure {
+            animation: noteAppear 0.5s ease-out;
         }
 
         @media (max-width: 768px) {
             .exercise-card {
-                padding: 25px 18px;
-                border-radius: 22px;
-            }
-
-            .top-bar {
-                padding: 14px 18px;
-                margin-bottom: 20px;
-                border-radius: 16px;
-            }
-
-            .score-display {
-                gap: 16px;
-            }
-
-            .score-value {
-                font-size: 1.4rem;
-            }
-
-            .question-text {
-                font-size: 1.4rem;
-            }
-
-            .answers-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
-            .answer-button {
-                padding: 20px 15px;
-                font-size: 1.3rem;
-            }
-
-            .rhythm-display {
                 padding: 25px;
+            }
+
+            .metronome-section {
+                padding: 20px;
+            }
+
+            .tap-zone {
+                padding: 40px 20px;
             }
         }
     </style>
@@ -308,39 +287,64 @@
     </div>
 
     <div class="container">
+        <!-- Métronome section -->
+        <div class="metronome-section">
+            <h3 style="color: white; font-family: 'Fredoka', sans-serif; font-size: 1.5rem; margin-bottom: 10px;">
+                <span data-icon="timer" data-icon-size="sm"></span> Métronome
+            </h3>
+            <div class="metronome-controls">
+                <button class="metronome-button" id="metronome-toggle" onclick="toggleMetronome()">
+                    ▶ Démarrer
+                </button>
+                <div class="bpm-control">
+                    <button class="bpm-button" onclick="adjustBPM(-10)">−</button>
+                    <div class="bpm-display" id="bpm-display">80 BPM</div>
+                    <button class="bpm-button" onclick="adjustBPM(10)">+</button>
+                </div>
+            </div>
+        </div>
+
         <div class="exercise-card">
-            <div class="question-header">
-                <h2 class="question-text" id="question-text">Quelle est cette figure rythmique ? <span data-icon="drum" data-icon-size="sm"></span></h2>
+            <div class="question-header" style="text-align: center; margin-bottom: 30px;">
+                <h2 class="question-text" id="question-text" style="font-family: 'Fredoka', sans-serif; font-size: 1.8rem; color: var(--text-dark);">
+                    Quelle est cette figure rythmique ? <span data-icon="drum" data-icon-size="sm"></span>
+                </h2>
             </div>
 
             <div class="rhythm-display" id="rhythm-display">
-                <!-- Les figures rythmiques seront affichées ici -->
+                <!-- Figures rythmiques affichées ici -->
+            </div>
+
+            <div id="tap-zone-container" style="display: none;">
+                <div class="tap-zone" id="tap-zone" onclick="handleTap()" onkeydown="handleKeyTap(event)" tabindex="0">
+                    <div class="tap-zone-text">Tape le rythme ici !</div>
+                    <div class="tap-hint">Clique ou appuie sur Espace</div>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="metronome-button" onclick="finishTapping()">✓ Terminer</button>
+                </div>
             </div>
 
             <div class="answers-grid" id="answers-grid">
-                <!-- Les boutons seront générés dynamiquement -->
+                <!-- Boutons générés dynamiquement -->
             </div>
         </div>
     </div>
 
-    <div class="feedback-message" id="feedback">
-        <div class="feedback-icon" id="feedbackIcon" data-icon="celebration" data-icon-size="xl"></div>
-        <div class="feedback-text" id="feedbackText">Bravo !</div>
-    </div>
-
-    <!-- Modale de fin d'exercice -->
-    <div class="feedback-message" id="end-modal" style="min-width:300px">
-        <div class="feedback-icon" id="endModalIcon"></div>
-        <div class="feedback-text" id="endModalTitle" style="margin-bottom:10px"></div>
-        <div id="endModalStars" style="margin:15px 0;display:flex;justify-content:center;gap:8px"></div>
-        <div id="endModalDetails" style="color:#7A7A9E;font-size:1.1rem;margin-bottom:20px"></div>
-        <button class="answer-button" onclick="navigateTo('index.html')" style="font-size:1.2rem;padding:15px 40px;border-color:var(--pastel-blue)">Continuer</button>
+    <div class="feedback-message" id="feedback" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: white; padding: 40px 60px; border-radius: 25px; box-shadow: 0 20px 60px rgba(155, 134, 189, 0.4); z-index: 1000; text-align: center; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);">
+        <div class="feedback-icon" id="feedbackIcon" data-icon="celebration" data-icon-size="xl" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
+        <div class="feedback-text" id="feedbackText" style="font-family: 'Fredoka', sans-serif; font-size: 2rem; color: var(--text-dark);">Bravo !</div>
     </div>
 
     <script src="icons.js"></script>
     <script src="app.js"></script>
     <script>
-        // Configuration des exercices de rythme
+        // Configuration du métronome
+        let metronomeBPM = 80;
+        let metronomeInterval = null;
+        let metronomeActive = false;
+
+        // Configuration des exercices
         const rhythmExercises = {
             figures: {
                 name: 'Figures',
@@ -353,18 +357,92 @@
             },
             counting: {
                 name: 'Comptage',
-                question: 'Combien de temps compte cette mesure ?',
-                maxBeats: 4
+                question: 'Combien de temps compte cette mesure ?'
+            },
+            tapping: {
+                name: 'Frappe',
+                question: 'Reproduis ce rythme en tapant !'
             }
         };
 
-        let currentMode = 'figures'; // ou 'counting'
+        let currentMode = 'figures';
         let currentFigure = null;
         let currentMeasure = null;
         let questionCount = 0;
-        const maxQuestions = 10;
+        const maxQuestions = 15;
 
-        // Dessiner une figure rythmique en SVG
+        // Variables pour la frappe de rythme
+        let tapTimes = [];
+        let expectedRhythm = [];
+        let tapStartTime = 0;
+        let isTapping = false;
+
+        // Métronome functions
+        function toggleMetronome() {
+            metronomeActive = !metronomeActive;
+            const button = document.getElementById('metronome-toggle');
+
+            if (metronomeActive) {
+                button.textContent = '⏸ Arrêter';
+                button.classList.add('active');
+                startMetronome();
+            } else {
+                button.textContent = '▶ Démarrer';
+                button.classList.remove('active');
+                stopMetronome();
+            }
+        }
+
+        function startMetronome() {
+            const interval = 60000 / metronomeBPM; // ms per beat
+
+            metronomeInterval = setInterval(() => {
+                playMetronomeClick();
+            }, interval);
+
+            playMetronomeClick(); // First click immediately
+        }
+
+        function stopMetronome() {
+            if (metronomeInterval) {
+                clearInterval(metronomeInterval);
+                metronomeInterval = null;
+            }
+        }
+
+        function playMetronomeClick() {
+            if (!app.state.settings.soundEnabled) return;
+
+            const audioContext = sound.audioContext;
+            if (!audioContext) return;
+
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        function adjustBPM(delta) {
+            metronomeBPM = Math.max(60, Math.min(120, metronomeBPM + delta));
+            document.getElementById('bpm-display').textContent = metronomeBPM + ' BPM';
+
+            if (metronomeActive) {
+                stopMetronome();
+                startMetronome();
+            }
+        }
+
+        // Dessiner figures rythmiques
         function drawRhythmFigure(symbol) {
             const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             svg.setAttribute('class', 'rhythm-svg note-figure');
@@ -374,7 +452,6 @@
             g.setAttribute('transform', 'translate(50, 50)');
 
             if (symbol === 'whole') {
-                // Ronde (note blanche ovale)
                 const ellipse = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
                 ellipse.setAttribute('cx', '0');
                 ellipse.setAttribute('cy', '0');
@@ -385,7 +462,6 @@
                 ellipse.setAttribute('stroke-width', '3');
                 g.appendChild(ellipse);
             } else if (symbol === 'half') {
-                // Blanche (note blanche avec tige)
                 const ellipse = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
                 ellipse.setAttribute('cx', '0');
                 ellipse.setAttribute('cy', '0');
@@ -396,7 +472,6 @@
                 ellipse.setAttribute('stroke-width', '3');
                 g.appendChild(ellipse);
 
-                // Tige
                 const stem = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 stem.setAttribute('x1', '17');
                 stem.setAttribute('y1', '0');
@@ -404,10 +479,8 @@
                 stem.setAttribute('y2', '-35');
                 stem.setAttribute('stroke', '#4A4A68');
                 stem.setAttribute('stroke-width', '2.5');
-                stem.setAttribute('stroke-linecap', 'round');
                 g.appendChild(stem);
             } else if (symbol === 'quarter') {
-                // Noire (note noire avec tige)
                 const ellipse = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
                 ellipse.setAttribute('cx', '0');
                 ellipse.setAttribute('cy', '0');
@@ -416,7 +489,6 @@
                 ellipse.setAttribute('fill', '#4A4A68');
                 g.appendChild(ellipse);
 
-                // Tige
                 const stem = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 stem.setAttribute('x1', '17');
                 stem.setAttribute('y1', '0');
@@ -424,21 +496,11 @@
                 stem.setAttribute('y2', '-35');
                 stem.setAttribute('stroke', '#4A4A68');
                 stem.setAttribute('stroke-width', '2.5');
-                stem.setAttribute('stroke-linecap', 'round');
                 g.appendChild(stem);
             }
 
             svg.appendChild(g);
             return svg;
-        }
-
-        // Initialiser l'exercice
-        function initExercise() {
-            // Démarrer avec le mode figures
-            currentMode = 'figures';
-            document.getElementById('mode-display').textContent = rhythmExercises[currentMode].name;
-            generateQuestion();
-            updateScoreDisplay();
         }
 
         function generateQuestion() {
@@ -447,24 +509,29 @@
                 return;
             }
 
+            const modes = ['figures', 'counting', 'tapping'];
+            currentMode = modes[questionCount % 3];
+
             const config = rhythmExercises[currentMode];
+            document.getElementById('mode-display').textContent = config.name;
             document.getElementById('question-text').innerHTML = config.question + ' <span data-icon="drum" data-icon-size="sm"></span>';
             SolFunIcons.replaceIconPlaceholders();
 
             const rhythmDisplay = document.getElementById('rhythm-display');
-            rhythmDisplay.innerHTML = '';
             const answersGrid = document.getElementById('answers-grid');
+            const tapZoneContainer = document.getElementById('tap-zone-container');
+
+            rhythmDisplay.innerHTML = '';
             answersGrid.innerHTML = '';
+            rhythmDisplay.style.display = 'flex';
+            tapZoneContainer.style.display = 'none';
+            answersGrid.style.display = 'grid';
 
             if (currentMode === 'figures') {
-                // Mode reconnaissance de figures
                 currentFigure = config.figures[Math.floor(Math.random() * config.figures.length)];
-
-                // Afficher la figure
                 const figure = drawRhythmFigure(currentFigure.symbol);
                 rhythmDisplay.appendChild(figure);
 
-                // Créer les boutons de réponse
                 config.figures.forEach(fig => {
                     const button = document.createElement('button');
                     button.className = 'answer-button';
@@ -473,16 +540,13 @@
                     answersGrid.appendChild(button);
                 });
             } else if (currentMode === 'counting') {
-                // Mode comptage des temps
-                const numNotes = Math.floor(Math.random() * 3) + 2; // 2 à 4 notes
+                const numNotes = Math.floor(Math.random() * 3) + 2;
                 const notes = [];
                 let totalBeats = 0;
 
-                // Générer une mesure aléatoire
                 for (let i = 0; i < numNotes && totalBeats < 4; i++) {
                     const availableFigures = config.figures.filter(f => totalBeats + f.beats <= 4);
                     if (availableFigures.length === 0) break;
-
                     const fig = availableFigures[Math.floor(Math.random() * availableFigures.length)];
                     notes.push(fig);
                     totalBeats += fig.beats;
@@ -490,7 +554,6 @@
 
                 currentMeasure = { notes, totalBeats };
 
-                // Afficher les notes
                 const measureDiv = document.createElement('div');
                 measureDiv.className = 'measure-display';
                 notes.forEach(note => {
@@ -499,7 +562,6 @@
                 });
                 rhythmDisplay.appendChild(measureDiv);
 
-                // Créer les boutons de réponse (1 à 4 temps)
                 for (let i = 1; i <= 4; i++) {
                     const button = document.createElement('button');
                     button.className = 'answer-button';
@@ -507,9 +569,84 @@
                     button.onclick = () => checkAnswer(i, button);
                     answersGrid.appendChild(button);
                 }
+            } else if (currentMode === 'tapping') {
+                // Mode frappe de rythme
+                const pattern = generateTapPattern();
+                currentMeasure = pattern;
+
+                const measureDiv = document.createElement('div');
+                measureDiv.className = 'measure-display';
+                pattern.notes.forEach(note => {
+                    const fig = drawRhythmFigure(note.symbol);
+                    measureDiv.appendChild(fig);
+                });
+                rhythmDisplay.appendChild(measureDiv);
+
+                setTimeout(() => {
+                    rhythmDisplay.style.display = 'none';
+                    tapZoneContainer.style.display = 'block';
+                    answersGrid.style.display = 'none';
+                    startTapping();
+                }, 3000); // Afficher le rythme pendant 3 secondes
             }
 
             questionCount++;
+        }
+
+        function generateTapPattern() {
+            const patterns = [
+                { notes: [{ symbol: 'quarter' }, { symbol: 'quarter' }, { symbol: 'half' }], beats: [1, 1, 2] },
+                { notes: [{ symbol: 'half' }, { symbol: 'quarter' }, { symbol: 'quarter' }], beats: [2, 1, 1] },
+                { notes: [{ symbol: 'quarter' }, { symbol: 'half' }, { symbol: 'quarter' }], beats: [1, 2, 1] }
+            ];
+            return patterns[Math.floor(Math.random() * patterns.length)];
+        }
+
+        function startTapping() {
+            tapTimes = [];
+            tapStartTime = Date.now();
+            isTapping = true;
+            document.getElementById('tap-zone').focus();
+        }
+
+        function handleTap() {
+            if (!isTapping) return;
+            const now = Date.now();
+            tapTimes.push(now - tapStartTime);
+            playMetronomeClick();
+        }
+
+        function handleKeyTap(event) {
+            if (event.code === 'Space') {
+                event.preventDefault();
+                handleTap();
+            }
+        }
+
+        function finishTapping() {
+            isTapping = false;
+            analyzeTapAccuracy();
+        }
+
+        function analyzeTapAccuracy() {
+            if (tapTimes.length < 2) {
+                checkAnswer(0, null);
+                return;
+            }
+
+            const intervals = [];
+            for (let i = 1; i < tapTimes.length; i++) {
+                intervals.push(tapTimes[i] - tapTimes[i - 1]);
+            }
+
+            // Simple accuracy check: did they tap the right number of times?
+            const expectedTaps = currentMeasure.notes.length;
+            const actualTaps = tapTimes.length;
+
+            const accuracy = Math.abs(expectedTaps - actualTaps) === 0 ? 100 :
+                           Math.abs(expectedTaps - actualTaps) === 1 ? 70 : 50;
+
+            checkAnswer(accuracy, null);
         }
 
         function checkAnswer(selectedAnswer, button) {
@@ -519,66 +656,42 @@
                 isCorrect = selectedAnswer === currentFigure.name;
             } else if (currentMode === 'counting') {
                 isCorrect = selectedAnswer === currentMeasure.totalBeats;
+            } else if (currentMode === 'tapping') {
+                isCorrect = selectedAnswer >= 70; // 70% accuracy or better
             }
 
-            // Désactiver tous les boutons
-            document.querySelectorAll('.answer-button').forEach(btn => {
-                btn.disabled = true;
-            });
+            if (button) {
+                document.querySelectorAll('.answer-button').forEach(btn => btn.disabled = true);
+            }
 
             const feedback = document.getElementById('feedback');
             const feedbackIcon = document.getElementById('feedbackIcon');
             const feedbackText = document.getElementById('feedbackText');
 
             if (isCorrect) {
-                button.classList.add('correct');
+                if (button) button.classList.add('correct');
                 feedbackIcon.innerHTML = SolFunIcons.celebration('xl');
-                feedbackText.textContent = 'Bravo ! C\'est la bonne réponse !';
+                feedbackText.textContent = currentMode === 'tapping' ?
+                    'Excellent rythme !' : 'Bravo ! C\'est la bonne réponse !';
                 sound.playSuccess();
                 app.updateStats(true);
             } else {
-                button.classList.add('incorrect');
+                if (button) button.classList.add('incorrect');
                 feedbackIcon.innerHTML = SolFunIcons.oops('xl');
-
-                if (currentMode === 'figures') {
-                    feedbackText.textContent = 'Presque ! C\'était ' + currentFigure.name + ' !';
-                } else {
-                    feedbackText.textContent = 'Presque ! C\'était ' + currentMeasure.totalBeats + ' temps !';
-                }
-
+                feedbackText.textContent = currentMode === 'tapping' ?
+                    'Presque ! Continue de t\'entraîner !' :
+                    (currentMode === 'figures' ? 'C\'était ' + currentFigure.name + ' !' :
+                     'C\'était ' + currentMeasure.totalBeats + ' temps !');
                 sound.playError();
                 app.updateStats(false);
-
-                // Montrer la bonne réponse
-                setTimeout(() => {
-                    document.querySelectorAll('.answer-button').forEach(btn => {
-                        if (currentMode === 'figures' && btn.textContent === currentFigure.name) {
-                            btn.classList.add('correct');
-                        } else if (currentMode === 'counting' && btn.textContent === currentMeasure.totalBeats + ' temps') {
-                            btn.classList.add('correct');
-                        }
-                    });
-                }, 1000);
             }
 
             updateScoreDisplay();
+            feedback.style.transform = 'translate(-50%, -50%) scale(1)';
 
-            // Afficher le feedback
             setTimeout(() => {
-                feedback.classList.add('show');
-            }, 500);
-
-            // Cacher le feedback et passer à la question suivante
-            setTimeout(() => {
-                feedback.classList.remove('show');
-                setTimeout(() => {
-                    // Alterner entre les modes
-                    if (questionCount === 5) {
-                        currentMode = 'counting';
-                        document.getElementById('mode-display').textContent = rhythmExercises[currentMode].name;
-                    }
-                    generateQuestion();
-                }, 400);
+                feedback.style.transform = 'translate(-50%, -50%) scale(0)';
+                setTimeout(generateQuestion, 400);
             }, 2500);
         }
 
@@ -592,19 +705,8 @@
             const session = app.state.currentSession;
             const successRate = session.total > 0 ? Math.round((session.score / session.total) * 100) : 0;
 
-            // Calculer les étoiles
-            let stars = 0;
-            if (successRate >= 90) stars = 3;
-            else if (successRate >= 70) stars = 2;
-            else if (successRate >= 50) stars = 1;
-
-            // Afficher la modale de fin
-            const modal = document.getElementById('end-modal');
-            document.getElementById('endModalIcon').innerHTML = SolFunIcons.trophy('xl');
-            document.getElementById('endModalTitle').textContent = 'Exercice terminé !';
-            document.getElementById('endModalStars').innerHTML = repeatIcon('star', stars, 'lg') + repeatIcon('starEmpty', 3 - stars, 'lg');
-            document.getElementById('endModalDetails').textContent = `Score : ${session.score}/${session.total} (${successRate}%)`;
-            modal.classList.add('show');
+            alert(`Exercice terminé !\nScore : ${session.score}/${session.total} (${successRate}%)`);
+            navigateTo('index.html');
         }
 
         function quitExercise() {
@@ -613,17 +715,16 @@
             }
         }
 
-        // Démarrer une session de rythme
-        app.state.currentSession = {
-            level: 0,
-            score: 0,
-            total: 0,
-            streak: 0
-        };
+        // Initialiser
+        app.state.currentSession = { level: 0, score: 0, total: 0, streak: 0 };
         app.saveState();
+        generateQuestion();
+        SolFunIcons.replaceIconPlaceholders();
 
-        // Démarrer l'exercice
-        initExercise();
+        // Cleanup on exit
+        window.addEventListener('beforeunload', () => {
+            stopMetronome();
+        });
     </script>
 </body>
 </html>
