@@ -79,15 +79,15 @@ Ce document liste toutes les fonctionnalités planifiées pour l'application Sol
 - [ ] **MVP-3.2.3** - Valider la réponse
 
 ### 3.3 Métronome intégré (P1)
-- [ ] **P1-3.3.1** - Créer un métronome réglable (60-120 BPM)
-- [ ] **P1-3.3.2** - Ajouter un bouton marche/arrêt
-- [ ] **P1-3.3.3** - Synchroniser avec les exercices de rythme
+- [x] **P1-3.3.1** - Créer un métronome réglable (60-120 BPM)
+- [x] **P1-3.3.2** - Ajouter un bouton marche/arrêt
+- [x] **P1-3.3.3** - Synchroniser avec les exercices de rythme
 
 ### 3.4 Frappe de rythme (P1)
-- [ ] **P1-3.4.1** - Afficher un rythme à reproduire
-- [ ] **P1-3.4.2** - Permettre de taper le rythme (barre espace ou clic)
-- [ ] **P1-3.4.3** - Analyser la précision du rythme tapé
-- [ ] **P1-3.4.4** - Donner un score de précision
+- [x] **P1-3.4.1** - Afficher un rythme à reproduire
+- [x] **P1-3.4.2** - Permettre de taper le rythme (barre espace ou clic)
+- [x] **P1-3.4.3** - Analyser la précision du rythme tapé
+- [x] **P1-3.4.4** - Donner un score de précision
 
 ### 3.5 Rythmes complexes (P2)
 - [ ] **P2-3.5.1** - Ajouter croches et double-croches
