@@ -22,7 +22,10 @@ class SolFunApp {
             progress: {
                 level1: { stars: 0, completed: false },
                 level2: { stars: 0, completed: false },
-                level3: { stars: 0, completed: false }
+                level3: { stars: 0, completed: false },
+                level4: { stars: 0, completed: false },
+                level5: { stars: 0, completed: false },
+                level6: { stars: 0, completed: false }
             },
             settings: {
                 speed: 'normal', // slow, normal, fast
@@ -50,7 +53,10 @@ class SolFunApp {
                 progress: {
                     level1: { ...defaults.progress.level1, ...(parsed.progress?.level1 || {}) },
                     level2: { ...defaults.progress.level2, ...(parsed.progress?.level2 || {}) },
-                    level3: { ...defaults.progress.level3, ...(parsed.progress?.level3 || {}) }
+                    level3: { ...defaults.progress.level3, ...(parsed.progress?.level3 || {}) },
+                    level4: { ...defaults.progress.level4, ...(parsed.progress?.level4 || {}) },
+                    level5: { ...defaults.progress.level5, ...(parsed.progress?.level5 || {}) },
+                    level6: { ...defaults.progress.level6, ...(parsed.progress?.level6 || {}) }
                 },
                 settings: { ...defaults.settings, ...(parsed.settings || {}) },
                 currentSession: { ...defaults.currentSession, ...(parsed.currentSession || {}) }

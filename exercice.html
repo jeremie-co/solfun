@@ -540,17 +540,39 @@
             1: {
                 notes: ['Do', 'Mi', 'Sol'],
                 clef: 'sol',
-                iconFn: 'cat'
+                iconFn: 'cat',
+                name: 'Débutant'
             },
             2: {
                 notes: ['Do', 'Ré', 'Mi', 'Fa', 'Sol'],
                 clef: 'sol',
-                iconFn: 'fox'
+                iconFn: 'fox',
+                name: 'Explorateur'
             },
             3: {
                 notes: ['Do', 'Ré', 'Mi', 'Fa', 'Sol'],
                 clef: 'fa',
-                iconFn: 'bear'
+                iconFn: 'bear',
+                name: 'Aventurier'
+            },
+            4: {
+                notes: ['Do', 'Ré', 'Mi', 'Fa', 'Sol', 'La', 'Si'],
+                clef: 'sol',
+                iconFn: 'star',
+                name: 'Expert'
+            },
+            5: {
+                notes: ['Do', 'Ré', 'Mi', 'Fa', 'Sol', 'La', 'Si'],
+                clef: 'mixed', // Alterne entre sol et fa
+                iconFn: 'trophy',
+                name: 'Maître'
+            },
+            6: {
+                notes: ['Do', 'Ré', 'Mi', 'Fa', 'Sol', 'La', 'Si'],
+                clef: 'sol',
+                iconFn: 'crown',
+                name: 'Dictée',
+                dictation: true // Mode dictée: ne pas afficher la note
             }
         };
 
@@ -580,6 +602,7 @@
         };
 
         let currentNote = '';
+        let currentClef = 'sol'; // Pour le mode mixed
         let questionCount = 0;
         const maxQuestions = 10;
 
@@ -644,8 +667,16 @@
             // Mettre à jour l'affichage du niveau
             document.getElementById('level-display').innerHTML = `${level} ${SolFunIcons[config.iconFn]('sm')}`;
 
-            // Afficher la bonne cle
-            showClef(config.clef);
+            // Mettre à jour le texte de la question si mode dictée
+            if (config.dictation) {
+                document.querySelector('.question-text').innerHTML = 'Écoute et trouve la note ! <span data-icon="speakerOn" data-icon-size="sm"></span>';
+                SolFunIcons.replaceIconPlaceholders();
+            }
+
+            // Afficher la bonne cle (sauf si mixed, sera géré dans generateQuestion)
+            if (config.clef !== 'mixed') {
+                showClef(config.clef);
+            }
 
             // Générer une nouvelle question
             generateQuestion();
@@ -664,8 +695,23 @@
             // Choisir une note aléatoire
             currentNote = config.notes[Math.floor(Math.random() * config.notes.length)];
 
-            // Positionner la note sur la portee
-            positionNote(currentNote, config.clef);
+            // Déterminer la clé à utiliser
+            if (config.clef === 'mixed') {
+                // Alterner aléatoirement entre sol et fa
+                currentClef = Math.random() < 0.5 ? 'sol' : 'fa';
+                showClef(currentClef);
+            } else {
+                currentClef = config.clef;
+            }
+
+            // Positionner la note sur la portee (ou la cacher en mode dictée)
+            if (config.dictation) {
+                // Mode dictée: cacher la note
+                document.getElementById('note-group').style.opacity = '0';
+            } else {
+                document.getElementById('note-group').style.opacity = '1';
+                positionNote(currentNote, currentClef);
+            }
 
             // Générer les boutons de réponse
             const answersGrid = document.getElementById('answers-grid');
