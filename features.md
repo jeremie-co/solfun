@@ -36,20 +36,20 @@ Ce document liste toutes les fonctionnalités planifiées pour l'application Sol
 - [x] **MVP-2.4.3** - Charger et stocker les fichiers audio des notes (Do à Si)
 
 ### 2.5 Extension gamme de notes (P1)
-- [ ] **P1-2.5.1** - Étendre à l'octave complète (7 notes : Do à Si)
+- [x] **P1-2.5.1** - Étendre à l'octave complète (7 notes : Do à Si)
 - [ ] **P1-2.5.2** - Ajouter les notes graves (Do grave à Sol grave)
 - [ ] **P1-2.5.3** - Ajouter les notes aiguës (La aigu à Sol aigu)
-- [ ] **P1-2.5.4** - Créer Niveau 4 : Octave complète
+- [x] **P1-2.5.4** - Créer Niveau 4 : Octave complète
 - [ ] **P1-2.5.5** - Créer Niveau 5 : Notes avec altérations (# et b)
 
 ### 2.6 Multi-clés (P1)
-- [ ] **P1-2.6.1** - Créer un mode mixte clé de Sol + clé de Fa
-- [ ] **P1-2.6.2** - Alterner aléatoirement entre les deux clés
-- [ ] **P1-2.6.3** - Indiquer visuellement quelle clé est utilisée
+- [x] **P1-2.6.1** - Créer un mode mixte clé de Sol + clé de Fa
+- [x] **P1-2.6.2** - Alterner aléatoirement entre les deux clés
+- [x] **P1-2.6.3** - Indiquer visuellement quelle clé est utilisée
 
 ### 2.7 Dictée de notes (P1)
-- [ ] **P1-2.7.1** - Jouer une note sans l'afficher
-- [ ] **P1-2.7.2** - Demander à l'utilisateur de trouver la note
+- [x] **P1-2.7.1** - Jouer une note sans l'afficher
+- [x] **P1-2.7.2** - Demander à l'utilisateur de trouver la note
 - [ ] **P1-2.7.3** - Créer des séquences de 2-3 notes à mémoriser
 - [ ] **P1-2.7.4** - Valider la séquence complète
 
@@ -69,14 +69,14 @@ Ce document liste toutes les fonctionnalités planifiées pour l'application Sol
 ## 3️⃣ EXERCICES DE RYTHME
 
 ### 3.1 Reconnaissance figures rythmiques (MVP)
-- [ ] **MVP-3.1.1** - Afficher une figure rythmique (ronde, blanche, noire)
-- [ ] **MVP-3.1.2** - Proposer 3 choix de réponse
-- [ ] **MVP-3.1.3** - Valider la réponse avec feedback visuel
+- [x] **MVP-3.1.1** - Afficher une figure rythmique (ronde, blanche, noire)
+- [x] **MVP-3.1.2** - Proposer 3 choix de réponse
+- [x] **MVP-3.1.3** - Valider la réponse avec feedback visuel
 
 ### 3.2 Comptage des temps (MVP)
-- [ ] **MVP-3.2.1** - Afficher une mesure simple (4/4)
-- [ ] **MVP-3.2.2** - Demander de compter le nombre de temps
-- [ ] **MVP-3.2.3** - Valider la réponse
+- [x] **MVP-3.2.1** - Afficher une mesure simple (4/4)
+- [x] **MVP-3.2.2** - Demander de compter le nombre de temps
+- [x] **MVP-3.2.3** - Valider la réponse
 
 ### 3.3 Métronome intégré (P1)
 - [x] **P1-3.3.1** - Créer un métronome réglable (60-120 BPM)
