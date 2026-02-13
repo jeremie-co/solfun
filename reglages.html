@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#E5D4FF">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Réglages - SolFun</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pastel-pink: #FFD4E5;
+            --pastel-blue: #B4D4FF;
+            --pastel-lavender: #E5D4FF;
+            --pastel-peach: #FFE5CC;
+            --pastel-mint: #D4FFEA;
+            --soft-purple: #9B86BD;
+            --deep-blue: #6B9BD1;
+            --white: #FFFFFF;
+            --text-dark: #4A4A68;
+            --text-light: #7A7A9E;
+            --error-red: #FF9B9B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--pastel-lavender) 0%, var(--pastel-blue) 50%, var(--pastel-mint) 100%);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            padding: 20px;
+            padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .header {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-button {
+            background: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            color: var(--soft-purple);
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(155, 134, 189, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover,
+        .back-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(155, 134, 189, 0.3);
+        }
+
+        .page-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.5rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(155, 134, 189, 0.3);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .settings-panel {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(155, 134, 189, 0.15);
+            margin-bottom: 30px;
+        }
+
+        .settings-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            color: var(--soft-purple);
+            margin-bottom: 20px;
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--pastel-blue);
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .speed-control {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .speed-button {
+            width: 44px;
+            height: 44px;
+            border: 2px solid var(--pastel-blue);
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .speed-button.active {
+            background: linear-gradient(135deg, var(--deep-blue), var(--soft-purple));
+            color: white;
+            border-color: transparent;
+        }
+
+        .speed-button:hover:not(.active),
+        .speed-button:active:not(.active) {
+            background: var(--pastel-blue);
+        }
+
+        .reset-section {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(155, 134, 189, 0.15);
+            text-align: center;
+        }
+
+        .reset-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .reset-button {
+            background: var(--error-red);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 155, 155, 0.3);
+        }
+
+        .reset-button:hover,
+        .reset-button:active {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 155, 155, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .settings-panel,
+            .reset-section {
+                padding: 22px;
+            }
+
+            .speed-button {
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .back-button {
+                padding: 10px 18px;
+                font-size: 0.95rem;
+            }
+
+            .settings-panel,
+            .reset-section {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-button" onclick="navigateTo('index.html')">← Retour</button>
+        <h1 class="page-title"><span data-icon="gear" data-icon-size="sm"></span> Réglages</h1>
+        <div style="width: 120px;"></div>
+    </div>
+
+    <div class="container">
+        <div class="settings-panel">
+            <h3 class="settings-title"><span data-icon="gear" data-icon-size="sm"></span> Préférences</h3>
+            <div class="setting-row">
+                <span class="setting-label">Vitesse d'affichage</span>
+                <div class="speed-control">
+                    <button class="speed-button" id="speed-slow" onclick="setSpeed('slow')" data-icon="turtle" data-icon-size="24"></button>
+                    <button class="speed-button active" id="speed-normal" onclick="setSpeed('normal')" data-icon="walker" data-icon-size="24"></button>
+                    <button class="speed-button" id="speed-fast" onclick="setSpeed('fast')" data-icon="runner" data-icon-size="24"></button>
+                </div>
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">Son activé</span>
+                <button class="speed-button active" id="sound-toggle" onclick="toggleSound()" data-icon="speakerOn" data-icon-size="24"></button>
+            </div>
+        </div>
+
+        <div class="reset-section">
+            <h3 class="settings-title"><span data-icon="refresh" data-icon-size="sm"></span> Réinitialisation</h3>
+            <p class="reset-description">
+                Tu peux remettre ta progression à zéro si tu veux recommencer depuis le début.
+            </p>
+            <button class="reset-button" onclick="resetProgress()">
+                <span data-icon="refresh" data-icon-size="sm"></span> Réinitialiser ma progression
+            </button>
+        </div>
+    </div>
+
+    <script src="icons.js"></script>
+    <script src="app.js"></script>
+    <script>
+        function loadSettings() {
+            const speed = app.state.settings.speed;
+            document.querySelectorAll('.speed-control .speed-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`speed-${speed}`).classList.add('active');
+
+            const soundBtn = document.getElementById('sound-toggle');
+            soundBtn.innerHTML = app.state.settings.soundEnabled ? SolFunIcons.speakerOn(24) : SolFunIcons.speakerOff(24);
+            soundBtn.classList.toggle('active', app.state.settings.soundEnabled);
+        }
+
+        function setSpeed(speed) {
+            app.setSpeed(speed);
+            document.querySelectorAll('.speed-control .speed-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`speed-${speed}`).classList.add('active');
+        }
+
+        function toggleSound() {
+            const enabled = app.toggleSound();
+            const button = document.getElementById('sound-toggle');
+            button.innerHTML = enabled ? SolFunIcons.speakerOn(24) : SolFunIcons.speakerOff(24);
+            button.classList.toggle('active', enabled);
+        }
+
+        function resetProgress() {
+            if (app.resetProgress()) {
+                navigateTo('index.html');
+            }
+        }
+
+        loadSettings();
+    </script>
+</body>
+</html>

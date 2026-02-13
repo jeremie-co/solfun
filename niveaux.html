@@ -181,66 +181,6 @@
         .level-card.level-2 .detail-badge { background: var(--pastel-peach); }
         .level-card.level-3 .detail-badge { background: var(--pastel-lavender); }
         
-        .settings-panel {
-            background: white;
-            border-radius: 25px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(155, 134, 189, 0.15);
-        }
-        
-        .settings-title {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1.5rem;
-            color: var(--soft-purple);
-            margin-bottom: 20px;
-        }
-        
-        .setting-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--pastel-blue);
-        }
-        
-        .setting-row:last-child {
-            border-bottom: none;
-        }
-        
-        .setting-label {
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-        
-        .speed-control {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .speed-button {
-            width: 44px;
-            height: 44px;
-            border: 2px solid var(--pastel-blue);
-            background: white;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .speed-button.active {
-            background: linear-gradient(135deg, var(--deep-blue), var(--soft-purple));
-            color: white;
-            border-color: transparent;
-        }
-        
-        .speed-button:hover:not(.active),
-        .speed-button:active:not(.active) {
-            background: var(--pastel-blue);
-        }
         
         @media (max-width: 768px) {
             .page-title {
@@ -264,14 +204,6 @@
                 transform: translateY(-4px) scale(1.01);
             }
 
-            .settings-panel {
-                padding: 22px;
-            }
-
-            .speed-button {
-                width: 48px;
-                height: 48px;
-            }
         }
 
         @media (max-width: 380px) {
@@ -319,11 +251,7 @@
             <div class="level-card level-1" onclick="startLevel(1)">
                 <div class="level-header">
                     <div class="level-number">1</div>
-                    <div class="stars" id="stars-1">
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                    </div>
+                    <div class="stars" id="stars-1"></div>
                 </div>
                 <h3 class="level-title">Débutant <span data-icon="cat" data-icon-size="sm"></span></h3>
                 <p class="level-description">
@@ -339,11 +267,7 @@
             <div class="level-card level-2" onclick="startLevel(2)">
                 <div class="level-header">
                     <div class="level-number">2</div>
-                    <div class="stars" id="stars-2">
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                    </div>
+                    <div class="stars" id="stars-2"></div>
                 </div>
                 <h3 class="level-title">Explorateur <span data-icon="fox" data-icon-size="sm"></span></h3>
                 <p class="level-description">
@@ -359,11 +283,7 @@
             <div class="level-card level-3" onclick="startLevel(3)">
                 <div class="level-header">
                     <div class="level-number">3</div>
-                    <div class="stars" id="stars-3">
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                        <span class="star" data-icon="starEmpty" data-icon-size="sm"></span>
-                    </div>
+                    <div class="stars" id="stars-3"></div>
                 </div>
                 <h3 class="level-title">Aventurier <span data-icon="bear" data-icon-size="sm"></span></h3>
                 <p class="level-description">
@@ -377,52 +297,26 @@
             </div>
         </div>
         
-        <div class="settings-panel">
-            <h3 class="settings-title"><span data-icon="gear" data-icon-size="sm"></span> Réglages</h3>
-            <div class="setting-row">
-                <span class="setting-label">Vitesse d'affichage</span>
-                <div class="speed-control">
-                    <button class="speed-button" id="speed-slow" onclick="setSpeed('slow')" data-icon="turtle" data-icon-size="24"></button>
-                    <button class="speed-button active" id="speed-normal" onclick="setSpeed('normal')" data-icon="walker" data-icon-size="24"></button>
-                    <button class="speed-button" id="speed-fast" onclick="setSpeed('fast')" data-icon="runner" data-icon-size="24"></button>
-                </div>
-            </div>
-            <div class="setting-row">
-                <span class="setting-label">Son activé</span>
-                <button class="speed-button active" id="sound-toggle" onclick="toggleSound()" data-icon="speakerOn" data-icon-size="24"></button>
-            </div>
-        </div>
     </div>
     
     <script src="icons.js"></script>
     <script src="app.js"></script>
     <script>
-        // Charger et afficher la progression sauvegardée
         function loadProgress() {
             const progress = app.state.progress;
 
-            // Afficher les étoiles gagnées pour chaque niveau
-            for (let i = 1; i <= 3; i++) {
-                const starEls = document.querySelectorAll(`#stars-${i} .star`);
-                const levelProgress = progress[`level${i}`];
-                if (levelProgress) {
-                    for (let j = 0; j < levelProgress.stars && j < starEls.length; j++) {
-                        starEls[j].innerHTML = SolFunIcons.star('sm');
-                        starEls[j].classList.add('earned');
-                    }
+            for (let level = 1; level <= 3; level++) {
+                const container = document.getElementById(`stars-${level}`);
+                const earned = progress[`level${level}`]?.stars || 0;
+
+                container.innerHTML = '';
+                for (let j = 0; j < level; j++) {
+                    const span = document.createElement('span');
+                    span.className = 'star' + (j < earned ? ' earned' : '');
+                    span.innerHTML = j < earned ? SolFunIcons.star('sm') : SolFunIcons.starEmpty('sm');
+                    container.appendChild(span);
                 }
             }
-
-            // Charger les paramètres
-            const speed = app.state.settings.speed;
-            document.querySelectorAll('.speed-control .speed-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById(`speed-${speed}`).classList.add('active');
-
-            const soundBtn = document.getElementById('sound-toggle');
-            soundBtn.innerHTML = app.state.settings.soundEnabled ? SolFunIcons.speakerOn(24) : SolFunIcons.speakerOff(24);
-            soundBtn.classList.toggle('active', app.state.settings.soundEnabled);
         }
 
         function startLevel(levelNum) {
@@ -430,22 +324,6 @@
             navigateTo('exercice.html');
         }
 
-        function setSpeed(speed) {
-            app.setSpeed(speed);
-            document.querySelectorAll('.speed-control .speed-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById(`speed-${speed}`).classList.add('active');
-        }
-
-        function toggleSound() {
-            const enabled = app.toggleSound();
-            const button = document.getElementById('sound-toggle');
-            button.innerHTML = enabled ? SolFunIcons.speakerOn(24) : SolFunIcons.speakerOff(24);
-            button.classList.toggle('active', enabled);
-        }
-
-        // Initialiser
         loadProgress();
     </script>
 </body>
