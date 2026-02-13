@@ -234,28 +234,6 @@
             color: var(--soft-purple);
         }
         
-        .menu-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 15px;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1.1rem;
-            color: var(--soft-purple);
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(155, 134, 189, 0.2);
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-        
-        .menu-button:hover,
-        .menu-button:active {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(155, 134, 189, 0.3);
-        }
         
         @media (max-width: 600px) {
             .container {
@@ -279,15 +257,6 @@
             .features {
                 grid-template-columns: 1fr 1fr;
                 gap: 10px;
-            }
-
-            .menu-button {
-                position: fixed;
-                top: max(10px, env(safe-area-inset-top));
-                right: max(10px, env(safe-area-inset-right));
-                padding: 10px 16px;
-                font-size: 0.95rem;
-                border-radius: 12px;
             }
 
             .cta-button {
@@ -329,16 +298,10 @@
                 padding: 12px;
             }
 
-            .menu-button {
-                padding: 8px 12px;
-                font-size: 0.85rem;
-            }
         }
     </style>
 </head>
 <body>
-    <button class="menu-button" onclick="navigateTo('progression.html')"><span data-icon="barChart" data-icon-size="sm"></span> Ma progression</button>
-    
     <div class="floating-notes">
         <div class="note" data-icon="musicNote" data-icon-size="lg"></div>
         <div class="note" data-icon="doubleNote" data-icon-size="lg"></div>
@@ -396,12 +359,12 @@
                 <div class="feature-title">Maîtrise le rythme</div>
             </div>
             <div class="feature-card" onclick="navigateTo('progression.html')">
-                <div class="feature-icon" data-icon="star" data-icon-size="lg"></div>
-                <div class="feature-title">Gagne des badges</div>
+                <div class="feature-icon" data-icon="barChart" data-icon-size="lg"></div>
+                <div class="feature-title">Ma progression</div>
             </div>
-            <div class="feature-card" onclick="navigateTo('progression.html')">
-                <div class="feature-icon" data-icon="chartUp" data-icon-size="lg"></div>
-                <div class="feature-title">Progresse à ton rythme</div>
+            <div class="feature-card" onclick="navigateTo('reglages.html')">
+                <div class="feature-icon" data-icon="gear" data-icon-size="lg"></div>
+                <div class="feature-title">Réglages</div>
             </div>
         </div>
     </div>
