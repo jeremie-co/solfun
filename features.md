@@ -69,14 +69,14 @@ Ce document liste toutes les fonctionnalités planifiées pour l'application Sol
 ## 3️⃣ EXERCICES DE RYTHME
 
 ### 3.1 Reconnaissance figures rythmiques (MVP)
-- [ ] **MVP-3.1.1** - Afficher une figure rythmique (ronde, blanche, noire)
-- [ ] **MVP-3.1.2** - Proposer 3 choix de réponse
-- [ ] **MVP-3.1.3** - Valider la réponse avec feedback visuel
+- [x] **MVP-3.1.1** - Afficher une figure rythmique (ronde, blanche, noire)
+- [x] **MVP-3.1.2** - Proposer 3 choix de réponse
+- [x] **MVP-3.1.3** - Valider la réponse avec feedback visuel
 
 ### 3.2 Comptage des temps (MVP)
-- [ ] **MVP-3.2.1** - Afficher une mesure simple (4/4)
-- [ ] **MVP-3.2.2** - Demander de compter le nombre de temps
-- [ ] **MVP-3.2.3** - Valider la réponse
+- [x] **MVP-3.2.1** - Afficher une mesure simple (4/4)
+- [x] **MVP-3.2.2** - Demander de compter le nombre de temps
+- [x] **MVP-3.2.3** - Valider la réponse
 
 ### 3.3 Métronome intégré (P1)
 - [ ] **P1-3.3.1** - Créer un métronome réglable (60-120 BPM)
