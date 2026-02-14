@@ -13,6 +13,7 @@
     <link rel="apple-touch-icon" sizes="512x512" href="apple-touch-icon-512.png">
     <title>Exercice de Rythme - SolFun</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="liquid-glass.css">
     <style>
         :root {
             --pastel-pink: #FFD4E5;
@@ -37,8 +38,9 @@
         }
 
         body {
+            /* Style ajouté par liquid glass */
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, var(--pastel-peach) 0%, var(--pastel-pink) 100%);
+            /* Liquid glass background */
             min-height: 100vh;
             padding: 20px;
             -webkit-text-size-adjust: 100%;
@@ -50,7 +52,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
             padding: 20px 30px;
             border-radius: 20px;
             box-shadow: 0 5px 20px rgba(155, 134, 189, 0.15);
@@ -97,7 +101,9 @@
         }
 
         .exercise-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
             border-radius: 30px;
             padding: 50px;
             box-shadow: 0 15px 40px rgba(155, 134, 189, 0.2);
@@ -113,7 +119,9 @@
         }
 
         .metronome-button {
-            background: white;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
             border: 2px solid var(--soft-purple);
             padding: 12px 30px;
             border-radius: 15px;
@@ -138,7 +146,9 @@
         .bpm-button {
             width: 40px;
             height: 40px;
-            background: white;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
             border: 2px solid var(--soft-purple);
             border-radius: 10px;
             font-size: 1.2rem;
@@ -216,7 +226,9 @@
         }
 
         .answer-button {
-            background: white;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
             border: 3px solid var(--pastel-peach);
             padding: 25px;
             border-radius: 20px;
@@ -299,7 +311,9 @@
         }
 
         .bpm-button {
-            background: white;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
             border: 2px solid var(--soft-purple);
             color: var(--soft-purple);
             width: 40px;
@@ -390,7 +404,7 @@
         }
     </style>
 </head>
-<body>
+<body class="liquid-bg" class="liquid-bg">
     <div class="top-bar">
         <div class="score-display">
             <div class="score-item">
@@ -461,7 +475,9 @@
         </div>
     </div>
 
-    <div class="feedback-message" id="feedback" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: white; padding: 40px 60px; border-radius: 25px; box-shadow: 0 20px 60px rgba(155, 134, 189, 0.4); z-index: 1000; text-align: center; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);">
+    <div class="feedback-message" id="feedback" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%); padding: 40px 60px; border-radius: 25px; box-shadow: 0 20px 60px rgba(155, 134, 189, 0.4); z-index: 1000; text-align: center; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);">
         <div class="feedback-icon" id="feedbackIcon" data-icon="celebration" data-icon-size="xl" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
         <div class="feedback-text" id="feedbackText" style="font-family: 'Fredoka', sans-serif; font-size: 2rem; color: var(--text-dark);">Bravo !</div>
     </div>
