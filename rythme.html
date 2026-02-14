@@ -8,6 +8,9 @@
     <meta name="theme-color" content="#FFE5CC">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="apple-touch-icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="apple-touch-icon-512.png">
     <title>Exercice de Rythme - SolFun</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -568,8 +571,6 @@
         }
 
         function generateQuestion() {
-            console.log('generateQuestion() appelée, questionCount =', questionCount);
-
             if (questionCount >= maxQuestions) {
                 endExercise();
                 return;
@@ -577,14 +578,11 @@
 
             const modes = ['figures', 'counting', 'tapping'];
             currentMode = modes[questionCount % 3];
-            console.log('Mode actuel :', currentMode);
 
             const config = rhythmExercises[currentMode];
             document.getElementById('mode-display').textContent = config.name;
             document.getElementById('question-text').innerHTML = config.question + ' <span data-icon="drum" data-icon-size="sm"></span>';
-            if (typeof SolFunIcons !== 'undefined') {
-                SolFunIcons.replaceIconPlaceholders();
-            }
+            SolFunIcons.replaceIconPlaceholders();
 
             const rhythmDisplay = document.getElementById('rhythm-display');
             const answersGrid = document.getElementById('answers-grid');
@@ -597,13 +595,9 @@
             answersGrid.style.display = 'grid';
 
             if (currentMode === 'figures') {
-                console.log('Génération d\'une figure rythmique...');
                 currentFigure = config.figures[Math.floor(Math.random() * config.figures.length)];
-                console.log('Figure choisie :', currentFigure);
                 const figure = drawRhythmFigure(currentFigure.symbol);
-                console.log('SVG créé :', figure);
                 rhythmDisplay.appendChild(figure);
-                console.log('Figure ajoutée au DOM');
 
                 config.figures.forEach(fig => {
                     const button = document.createElement('button');
@@ -913,11 +907,8 @@
             // S'assurer que app est chargé
             if (typeof app === 'undefined') {
                 console.error('app.js n\'est pas chargé !');
-                alert('Erreur : Les fichiers nécessaires ne sont pas chargés. Vérifie que app.js et icons.js sont présents.');
                 return;
             }
-
-            console.log('Initialisation de l\'exercice de rythme...');
 
             // Initialiser la session
             if (!app.state.currentSession) {
@@ -930,7 +921,6 @@
             app.saveState();
 
             // Générer la première question
-            console.log('Génération de la première question...');
             generateQuestion();
 
             // Remplacer les icônes
@@ -939,11 +929,13 @@
             }
         }
 
-        // Attendre que TOUS les scripts soient chargés
-        window.addEventListener('load', function() {
-            console.log('Page complètement chargée, démarrage de l\'exercice...');
+        // Attendre que le DOM soit chargé
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeExercise);
+        } else {
+            // DOM déjà chargé
             initializeExercise();
-        });
+        }
 
         // Cleanup on exit
         window.addEventListener('beforeunload', () => {
