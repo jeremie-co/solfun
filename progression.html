@@ -491,7 +491,7 @@
             document.getElementById('total-time').textContent = formatTime(stats.totalTime);
 
             // Progression par niveau
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 6; i++) {
                 const levelKey = `level${i}`;
                 const progress = app.state.progress[levelKey];
                 const stars = progress.stars || 0;
