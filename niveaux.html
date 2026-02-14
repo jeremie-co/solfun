@@ -13,6 +13,7 @@
     <link rel="apple-touch-icon" sizes="512x512" href="apple-touch-icon-512.png">
     <title>Choisis ton niveau - SolFun</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="liquid-glass.css">
     <style>
         :root {
             --pastel-pink: #FFD4E5;
@@ -35,8 +36,9 @@
         }
 
         body {
+            /* Style ajouté par liquid glass */
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, var(--pastel-peach) 0%, var(--pastel-pink) 50%, var(--pastel-lavender) 100%);
+            /* Liquid glass background */
             min-height: 100vh;
             min-height: -webkit-fill-available;
             padding: 20px;
@@ -53,7 +55,9 @@
         }
         
         .back-button {
-            background: white;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
             border: none;
             padding: 15px 25px;
             border-radius: 15px;
@@ -91,7 +95,9 @@
         }
         
         .level-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
             border-radius: 25px;
             padding: 30px;
             cursor: pointer;
@@ -243,7 +249,7 @@
         }
     </style>
 </head>
-<body>
+<body class="liquid-bg" class="liquid-bg">
     <div class="header">
         <button class="back-button" onclick="navigateTo('index.html')">← Retour</button>
         <h1 class="page-title"><span data-icon="musicNote" data-icon-size="sm"></span> Choisis ton niveau</h1>
