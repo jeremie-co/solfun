@@ -495,12 +495,13 @@
                 const levelKey = `level${i}`;
                 const progress = app.state.progress[levelKey];
                 const stars = progress.stars || 0;
-                const percentage = stars > 0 ? (stars / 3) * 100 : 0;
+                const maxStars = i; // Nombre d'étoiles = numéro du niveau
+                const percentage = stars > 0 ? (stars / maxStars) * 100 : 0;
 
-                document.getElementById(`level${i}-stars`).innerHTML = repeatIcon('star', stars, 'sm') + repeatIcon('starEmpty', 3 - stars, 'sm');
+                document.getElementById(`level${i}-stars`).innerHTML = repeatIcon('star', stars, 'sm') + repeatIcon('starEmpty', maxStars - stars, 'sm');
                 const progressBar = document.getElementById(`level${i}-progress`);
                 progressBar.style.width = percentage + '%';
-                progressBar.textContent = stars > 0 ? `${stars}/3` : '';
+                progressBar.textContent = stars > 0 ? `${stars}/${maxStars}` : '';
             }
 
             // Badges

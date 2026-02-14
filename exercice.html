@@ -799,17 +799,11 @@
             const successRate = session.total > 0 ? Math.round((session.score / session.total) * 100) : 0;
             const maxStars = session.level;
 
-            // Calculer les étoiles en fonction du niveau
+            // Calculer les étoiles en fonction du niveau et du taux de réussite
+            // 50% → 1 étoile, 100% → maxStars étoiles (répartition uniforme)
             let stars = 0;
-            if (maxStars === 1) {
-                if (successRate >= 50) stars = 1;
-            } else if (maxStars === 2) {
-                if (successRate >= 80) stars = 2;
-                else if (successRate >= 50) stars = 1;
-            } else {
-                if (successRate >= 90) stars = 3;
-                else if (successRate >= 70) stars = 2;
-                else if (successRate >= 50) stars = 1;
+            if (successRate >= 50) {
+                stars = Math.min(maxStars, Math.floor((successRate - 50) * maxStars / 50) + 1);
             }
 
             // Sauvegarder la progression
