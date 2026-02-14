@@ -252,6 +252,113 @@
             animation: noteAppear 0.5s ease-out;
         }
 
+        .metronome-control {
+            background: linear-gradient(135deg, var(--pastel-lavender) 0%, var(--pastel-pink) 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .metronome-header {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .metronome-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .bpm-control {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .bpm-button {
+            background: white;
+            border: 2px solid var(--soft-purple);
+            color: var(--soft-purple);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bpm-button:hover,
+        .bpm-button:active {
+            background: var(--soft-purple);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .bpm-input {
+            width: 80px;
+            padding: 10px;
+            border: 2px solid var(--soft-purple);
+            border-radius: 10px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        .metronome-toggle {
+            background: var(--success-green);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .metronome-toggle:hover,
+        .metronome-toggle:active {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(127, 216, 154, 0.4);
+        }
+
+        .metronome-toggle.playing {
+            background: var(--error-red);
+        }
+
+        .metronome-beat {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--soft-purple);
+            opacity: 0.3;
+            transition: all 0.1s ease;
+        }
+
+        .metronome-beat.active {
+            opacity: 1;
+            transform: scale(1.5);
+        }
+
         @media (max-width: 768px) {
             .exercise-card {
                 padding: 25px;
@@ -263,6 +370,14 @@
 
             .tap-zone {
                 padding: 40px 20px;
+            }
+
+            .metronome-control {
+                padding: 20px 15px;
+            }
+
+            .metronome-controls {
+                gap: 15px;
             }
         }
     </style>
@@ -322,6 +437,30 @@
                 </div>
                 <div style="text-align: center; margin-top: 20px;">
                     <button class="metronome-button" onclick="finishTapping()">✓ Terminer</button>
+                </div>
+            </div>
+
+            <!-- Métronome -->
+            <div class="metronome-control">
+                <div class="metronome-header">
+                    <span data-icon="timer" data-icon-size="sm"></span>
+                    Métronome
+                </div>
+                <div class="metronome-controls">
+                    <div class="bpm-control">
+                        <button class="bpm-button" onclick="adjustBPM(-10)">−10</button>
+                        <button class="bpm-button" onclick="adjustBPM(-1)">−</button>
+                        <input type="number" id="bpm-input" class="bpm-input" value="60" min="40" max="140" step="1" onchange="updateBPM()">
+                        <button class="bpm-button" onclick="adjustBPM(1)">+</button>
+                        <button class="bpm-button" onclick="adjustBPM(10)">+10</button>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <div class="metronome-beat" id="beat-indicator"></div>
+                        <button class="metronome-toggle" id="metronome-toggle" onclick="toggleMetronome()">
+                            <span data-icon="play" data-icon-size="sm"></span>
+                            <span id="metronome-status">Démarrer</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -544,8 +683,10 @@
                 const notes = [];
                 let totalBeats = 0;
 
+                // Générer une mesure aléatoire
+                const allFigures = rhythmExercises.figures.figures;
                 for (let i = 0; i < numNotes && totalBeats < 4; i++) {
-                    const availableFigures = config.figures.filter(f => totalBeats + f.beats <= 4);
+                    const availableFigures = allFigures.filter(f => totalBeats + f.beats <= 4);
                     if (availableFigures.length === 0) break;
                     const fig = availableFigures[Math.floor(Math.random() * availableFigures.length)];
                     notes.push(fig);
@@ -711,7 +852,114 @@
 
         function quitExercise() {
             if (confirm('Es-tu sûr de vouloir quitter cet exercice ?')) {
+                stopMetronome();
                 navigateTo('index.html');
+            }
+        }
+
+        // Métronome
+        let metronomeInterval = null;
+        let metronomeBPM = 60;
+        let metronomeAudioContext = null;
+
+        function initMetronome() {
+            // Créer un contexte audio pour le métronome
+            if (!metronomeAudioContext) {
+                metronomeAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function adjustBPM(delta) {
+            const input = document.getElementById('bpm-input');
+            let newBPM = parseInt(input.value) + delta;
+            newBPM = Math.max(40, Math.min(140, newBPM));
+            input.value = newBPM;
+            updateBPM();
+        }
+
+        function updateBPM() {
+            const input = document.getElementById('bpm-input');
+            let bpm = parseInt(input.value);
+
+            // Valider la plage
+            if (isNaN(bpm) || bpm < 40) bpm = 40;
+            if (bpm > 140) bpm = 140;
+
+            input.value = bpm;
+            metronomeBPM = bpm;
+
+            // Si le métronome est en cours, le redémarrer avec le nouveau tempo
+            if (metronomeInterval) {
+                stopMetronome();
+                startMetronome();
+            }
+        }
+
+        function toggleMetronome() {
+            if (metronomeInterval) {
+                stopMetronome();
+            } else {
+                startMetronome();
+            }
+        }
+
+        function startMetronome() {
+            initMetronome();
+
+            const toggle = document.getElementById('metronome-toggle');
+            const status = document.getElementById('metronome-status');
+            toggle.classList.add('playing');
+            status.textContent = 'Arrêter';
+
+            const interval = (60 / metronomeBPM) * 1000;
+
+            // Jouer le premier tick immédiatement
+            playMetronomeTick();
+
+            metronomeInterval = setInterval(() => {
+                playMetronomeTick();
+            }, interval);
+        }
+
+        function stopMetronome() {
+            if (metronomeInterval) {
+                clearInterval(metronomeInterval);
+                metronomeInterval = null;
+
+                const toggle = document.getElementById('metronome-toggle');
+                const status = document.getElementById('metronome-status');
+                const beat = document.getElementById('beat-indicator');
+
+                toggle.classList.remove('playing');
+                status.textContent = 'Démarrer';
+                beat.classList.remove('active');
+            }
+        }
+
+        function playMetronomeTick() {
+            // Effet visuel
+            const beat = document.getElementById('beat-indicator');
+            beat.classList.add('active');
+            setTimeout(() => {
+                beat.classList.remove('active');
+            }, 100);
+
+            // Son du métronome
+            if (metronomeAudioContext) {
+                const oscillator = metronomeAudioContext.createOscillator();
+                const gainNode = metronomeAudioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(metronomeAudioContext.destination);
+
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+
+                gainNode.gain.setValueAtTime(0.3, metronomeAudioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, metronomeAudioContext.currentTime + 0.1);
+
+                oscillator.start(metronomeAudioContext.currentTime);
+                oscillator.stop(metronomeAudioContext.currentTime + 0.1);
             }
         }
 
