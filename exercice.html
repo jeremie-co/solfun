@@ -13,7 +13,6 @@
     <link rel="apple-touch-icon" sizes="512x512" href="apple-touch-icon-512.png">
     <title>Exercice - SolFun</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="liquid-glass.css">
     <style>
         :root {
             --pastel-pink: #FFD4E5;
@@ -38,9 +37,8 @@
         }
 
         body {
-            /* Style ajouté par liquid glass */
             font-family: 'Quicksand', sans-serif;
-            /* Liquid glass background */
+            background: linear-gradient(135deg, var(--pastel-mint) 0%, var(--pastel-blue) 100%);
             min-height: 100vh;
             min-height: -webkit-fill-available;
             padding: 20px;
@@ -54,9 +52,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px) saturate(180%);
-            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            background: white;
             padding: 20px 30px;
             border-radius: 20px;
             box-shadow: 0 5px 20px rgba(155, 134, 189, 0.15);
@@ -109,9 +105,7 @@
         }
         
         .exercise-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px) saturate(180%);
-            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            background: white;
             border-radius: 30px;
             padding: 50px;
             box-shadow: 0 15px 40px rgba(155, 134, 189, 0.2);
@@ -205,9 +199,7 @@
         }
         
         .answer-button {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px) saturate(180%);
-            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            background: white;
             border: 3px solid var(--pastel-blue);
             padding: 25px;
             border-radius: 20px;
@@ -278,9 +270,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px) saturate(180%);
-            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            background: white;
             padding: 40px 60px;
             border-radius: 25px;
             box-shadow: 0 20px 60px rgba(155, 134, 189, 0.4);
@@ -391,7 +381,6 @@
 
         @media (max-width: 380px) {
             body {
-            /* Style ajouté par liquid glass */
                 padding: 12px;
             }
 
@@ -436,7 +425,7 @@
         }
     </style>
 </head>
-<body class="liquid-bg" class="liquid-bg">
+<body>
     <div class="top-bar">
         <div class="score-display">
             <div class="score-item">

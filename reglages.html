@@ -13,7 +13,6 @@
     <link rel="apple-touch-icon" sizes="512x512" href="apple-touch-icon-512.png">
     <title>Réglages - SolFun</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="liquid-glass.css">
     <style>
         :root {
             --pastel-pink: #FFD4E5;
@@ -37,9 +36,8 @@
         }
 
         body {
-            /* Style ajouté par liquid glass */
             font-family: 'Quicksand', sans-serif;
-            /* Liquid glass background */
+            background: linear-gradient(135deg, var(--pastel-lavender) 0%, var(--pastel-blue) 50%, var(--pastel-mint) 100%);
             min-height: 100vh;
             min-height: -webkit-fill-available;
             padding: 20px;
@@ -56,9 +54,7 @@
         }
 
         .back-button {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px) saturate(180%);
-            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            background: white;
             border: none;
             padding: 15px 25px;
             border-radius: 15px;
@@ -89,9 +85,7 @@
         }
 
         .settings-panel {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px) saturate(180%);
-            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            background: white;
             border-radius: 25px;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(155, 134, 189, 0.15);
@@ -131,10 +125,8 @@
         .speed-button {
             width: 44px;
             height: 44px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px) saturate(180%);
-            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            border: 2px solid var(--pastel-blue);
+            background: white;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -155,9 +147,7 @@
         }
 
         .reset-section {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px) saturate(180%);
-            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            background: white;
             border-radius: 25px;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(155, 134, 189, 0.15);
@@ -228,7 +218,7 @@
         }
     </style>
 </head>
-<body class="liquid-bg" class="liquid-bg">
+<body>
     <div class="header">
         <button class="back-button" onclick="navigateTo('index.html')">← Retour</button>
         <h1 class="page-title"><span data-icon="gear" data-icon-size="sm"></span> Réglages</h1>
