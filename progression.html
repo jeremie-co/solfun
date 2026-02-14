@@ -13,6 +13,7 @@
     <link rel="apple-touch-icon" sizes="512x512" href="apple-touch-icon-512.png">
     <title>Ma Progression - SolFun</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="liquid-glass.css">
     <style>
         :root {
             --pastel-pink: #FFD4E5;
@@ -36,8 +37,9 @@
         }
 
         body {
+            /* Style ajouté par liquid glass */
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, var(--pastel-lavender) 0%, var(--pastel-pink) 50%, var(--pastel-peach) 100%);
+            /* Liquid glass background */
             min-height: 100vh;
             min-height: -webkit-fill-available;
             padding: 20px;
@@ -84,7 +86,9 @@
         }
         
         .stat-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
             border-radius: 25px;
             padding: 30px;
             text-align: center;
@@ -133,7 +137,9 @@
         }
         
         .progress-section {
-            background: white;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
             border-radius: 25px;
             padding: 40px;
             box-shadow: 0 10px 30px rgba(155, 134, 189, 0.2);
@@ -235,8 +241,10 @@
         }
         
         .action-button {
-            background: white;
-            border: 2px solid var(--pastel-blue);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             padding: 12px 25px;
             border-radius: 12px;
             font-family: 'Fredoka', sans-serif;
@@ -361,7 +369,7 @@
         }
     </style>
 </head>
-<body>
+<body class="liquid-bg" class="liquid-bg">
     <div class="header">
         <h1 class="page-title"><span data-icon="barChart" data-icon-size="md"></span> Ma Progression</h1>
         <a href="#" class="back-link" onclick="navigateTo('index.html'); return false;">← Retour au menu</a>
