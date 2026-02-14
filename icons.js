@@ -408,6 +408,17 @@ const SolFunIcons = {
             <circle cx="50" cy="50" r="26" fill="#FFD4E5" fill-opacity="0.15"/>
         `, size, label);
     },
+
+    // Méthode pour remplacer les placeholders d'icônes dans le DOM
+    replaceIconPlaceholders() {
+        document.querySelectorAll('[data-icon]').forEach(el => {
+            const iconName = el.dataset.icon;
+            const size = el.dataset.iconSize || 'md';
+            if (this[iconName]) {
+                el.innerHTML = this[iconName](size);
+            }
+        });
+    }
 };
 
 // Helper pour repeter une icone
