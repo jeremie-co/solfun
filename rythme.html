@@ -567,6 +567,8 @@
         }
 
         function generateQuestion() {
+            console.log('generateQuestion() appelée, questionCount =', questionCount);
+
             if (questionCount >= maxQuestions) {
                 endExercise();
                 return;
@@ -574,11 +576,14 @@
 
             const modes = ['figures', 'counting', 'tapping'];
             currentMode = modes[questionCount % 3];
+            console.log('Mode actuel :', currentMode);
 
             const config = rhythmExercises[currentMode];
             document.getElementById('mode-display').textContent = config.name;
             document.getElementById('question-text').innerHTML = config.question + ' <span data-icon="drum" data-icon-size="sm"></span>';
-            SolFunIcons.replaceIconPlaceholders();
+            if (typeof SolFunIcons !== 'undefined') {
+                SolFunIcons.replaceIconPlaceholders();
+            }
 
             const rhythmDisplay = document.getElementById('rhythm-display');
             const answersGrid = document.getElementById('answers-grid');
@@ -591,9 +596,13 @@
             answersGrid.style.display = 'grid';
 
             if (currentMode === 'figures') {
+                console.log('Génération d\'une figure rythmique...');
                 currentFigure = config.figures[Math.floor(Math.random() * config.figures.length)];
+                console.log('Figure choisie :', currentFigure);
                 const figure = drawRhythmFigure(currentFigure.symbol);
+                console.log('SVG créé :', figure);
                 rhythmDisplay.appendChild(figure);
+                console.log('Figure ajoutée au DOM');
 
                 config.figures.forEach(fig => {
                     const button = document.createElement('button');
@@ -903,8 +912,11 @@
             // S'assurer que app est chargé
             if (typeof app === 'undefined') {
                 console.error('app.js n\'est pas chargé !');
+                alert('Erreur : Les fichiers nécessaires ne sont pas chargés. Vérifie que app.js et icons.js sont présents.');
                 return;
             }
+
+            console.log('Initialisation de l\'exercice de rythme...');
 
             // Initialiser la session
             if (!app.state.currentSession) {
@@ -917,6 +929,7 @@
             app.saveState();
 
             // Générer la première question
+            console.log('Génération de la première question...');
             generateQuestion();
 
             // Remplacer les icônes
@@ -925,13 +938,11 @@
             }
         }
 
-        // Attendre que le DOM soit chargé
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeExercise);
-        } else {
-            // DOM déjà chargé
+        // Attendre que TOUS les scripts soient chargés
+        window.addEventListener('load', function() {
+            console.log('Page complètement chargée, démarrage de l\'exercice...');
             initializeExercise();
-        }
+        });
 
         // Cleanup on exit
         window.addEventListener('beforeunload', () => {
