@@ -357,9 +357,8 @@
                 const container = document.getElementById(`stars-${level}`);
                 const earned = progress[`level${level}`]?.stars || 0;
 
-                // Niveaux 1-3: nombre d'étoiles = niveau (1, 2, 3)
-                // Niveaux 4-6: 3 étoiles max
-                const maxStars = level <= 3 ? level : 3;
+                // Nombre d'étoiles = numéro du niveau
+                const maxStars = level;
 
                 container.innerHTML = '';
                 for (let j = 0; j < maxStars; j++) {
