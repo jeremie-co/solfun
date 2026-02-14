@@ -449,6 +449,13 @@
     <script src="icons.js"></script>
     <script src="app.js"></script>
     <script>
+        // Fallback pour navigateTo si app.js ne se charge pas
+        if (typeof navigateTo === 'undefined') {
+            function navigateTo(page) {
+                window.location.href = page;
+            }
+        }
+
         // Configuration des exercices
         const rhythmExercises = {
             figures: {
@@ -715,8 +722,8 @@
                 feedbackIcon.innerHTML = SolFunIcons.celebration('xl');
                 feedbackText.textContent = currentMode === 'tapping' ?
                     'Excellent rythme !' : 'Bravo ! C\'est la bonne réponse !';
-                sound.playSuccess();
-                app.updateStats(true);
+                if (typeof sound !== 'undefined') sound.playSuccess();
+                if (typeof app !== 'undefined') app.updateStats(true);
             } else {
                 if (button) button.classList.add('incorrect');
                 feedbackIcon.innerHTML = SolFunIcons.oops('xl');
@@ -724,8 +731,8 @@
                     'Presque ! Continue de t\'entraîner !' :
                     (currentMode === 'figures' ? 'C\'était ' + currentFigure.name + ' !' :
                      'C\'était ' + currentMeasure.totalBeats + ' temps !');
-                sound.playError();
-                app.updateStats(false);
+                if (typeof sound !== 'undefined') sound.playError();
+                if (typeof app !== 'undefined') app.updateStats(false);
             }
 
             updateScoreDisplay();
@@ -738,12 +745,20 @@
         }
 
         function updateScoreDisplay() {
+            if (typeof app === 'undefined' || !app.state.currentSession) return;
+
             const session = app.state.currentSession;
             document.getElementById('score-display').textContent = `${session.score}/${session.total}`;
             document.getElementById('streak-display').innerHTML = `${SolFunIcons.fire('sm')} ${session.streak}`;
         }
 
         function endExercise() {
+            if (typeof app === 'undefined' || !app.state.currentSession) {
+                alert('Erreur : Session non initialisée');
+                navigateTo('index.html');
+                return;
+            }
+
             const session = app.state.currentSession;
             const successRate = session.total > 0 ? Math.round((session.score / session.total) * 100) : 0;
 
@@ -864,11 +879,40 @@
             }
         }
 
-        // Initialiser
-        app.state.currentSession = { level: 0, score: 0, total: 0, streak: 0 };
-        app.saveState();
-        generateQuestion();
-        SolFunIcons.replaceIconPlaceholders();
+        // Initialiser quand le DOM et les scripts sont prêts
+        function initializeExercise() {
+            // S'assurer que app est chargé
+            if (typeof app === 'undefined') {
+                console.error('app.js n\'est pas chargé !');
+                return;
+            }
+
+            // Initialiser la session
+            if (!app.state.currentSession) {
+                app.state.currentSession = { level: 0, score: 0, total: 0, streak: 0 };
+            } else {
+                app.state.currentSession.score = 0;
+                app.state.currentSession.total = 0;
+                app.state.currentSession.streak = 0;
+            }
+            app.saveState();
+
+            // Générer la première question
+            generateQuestion();
+
+            // Remplacer les icônes
+            if (typeof SolFunIcons !== 'undefined') {
+                SolFunIcons.replaceIconPlaceholders();
+            }
+        }
+
+        // Attendre que le DOM soit chargé
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeExercise);
+        } else {
+            // DOM déjà chargé
+            initializeExercise();
+        }
 
         // Cleanup on exit
         window.addEventListener('beforeunload', () => {
