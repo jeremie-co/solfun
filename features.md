@@ -72,6 +72,8 @@ Ce document liste toutes les fonctionnalités planifiées pour l'application Sol
 - [x] **MVP-3.1.1** - Afficher une figure rythmique (ronde, blanche, noire)
 - [x] **MVP-3.1.2** - Proposer 3 choix de réponse
 - [x] **MVP-3.1.3** - Valider la réponse avec feedback visuel
+- [x] **MVP-3.1.4** - Mode figures rythmiques fonctionnel
+- [x] **MVP-3.1.5** - Mode comptage des temps fonctionnel
 
 ### 3.2 Comptage des temps (MVP)
 - [x] **MVP-3.2.1** - Afficher une mesure simple (4/4)
@@ -79,9 +81,11 @@ Ce document liste toutes les fonctionnalités planifiées pour l'application Sol
 - [x] **MVP-3.2.3** - Valider la réponse
 
 ### 3.3 Métronome intégré (P1)
-- [ ] **P1-3.3.1** - Créer un métronome réglable (60-120 BPM)
-- [ ] **P1-3.3.2** - Ajouter un bouton marche/arrêt
-- [ ] **P1-3.3.3** - Synchroniser avec les exercices de rythme
+- [x] **P1-3.3.1** - Créer un métronome réglable (40-140 BPM avec incréments de 1)
+- [x] **P1-3.3.2** - Ajouter un bouton marche/arrêt
+- [x] **P1-3.3.3** - Intégrer le métronome dans les exercices de rythme
+- [x] **P1-3.3.4** - Boutons d'ajustement rapide (-10, -1, +1, +10)
+- [x] **P1-3.3.5** - Feedback visuel et sonore des battements
 
 ### 3.4 Frappe de rythme (P1)
 - [ ] **P1-3.4.1** - Afficher un rythme à reproduire
