@@ -221,6 +221,22 @@
             color: var(--soft-purple);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+        }
+
+        .answer-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(155, 134, 189, 0.3);
+            border-color: var(--soft-purple);
+        }
+
+        .answer-button:active {
+            transform: translateY(-1px);
+        }
+
+        .answer-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(155, 134, 189, 0.3);
         }
 
         .answer-button.correct {
@@ -710,7 +726,10 @@
             }
 
             if (button) {
-                document.querySelectorAll('.answer-button').forEach(btn => btn.disabled = true);
+                document.querySelectorAll('.answer-button').forEach(btn => {
+                    btn.disabled = true;
+                    btn.blur(); // Enlever le focus pour éviter la surbrillance bleue
+                });
             }
 
             const feedback = document.getElementById('feedback');
